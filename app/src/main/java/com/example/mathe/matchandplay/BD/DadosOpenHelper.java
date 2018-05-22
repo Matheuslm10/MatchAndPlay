@@ -1,4 +1,4 @@
-package com.example.mathe.testemenu.BD;
+package com.example.mathe.matchandplay.BD;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -7,6 +7,12 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class DadosOpenHelper extends SQLiteOpenHelper {
+
+    public DadosOpenHelper(Context context) {
+        //
+        super(context, "Empresa", null, 1);
+    }
+
 
 
     public String getCreateTableUsuario(){
@@ -43,10 +49,6 @@ public class DadosOpenHelper extends SQLiteOpenHelper {
         sql.append("	)                                                             ");
 
         return sql.toString();
-    }
-
-    public DadosOpenHelper(Context context) {
-        super(context, "database", null, 1);
     }
 
     @Override
