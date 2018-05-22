@@ -13,16 +13,50 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import com.example.mathe.matchandplay.BD.Criaconexao;
+import com.example.mathe.matchandplay.BD.UsuarioRepositorio;
+import com.example.mathe.matchandplay.ClassesObjetos.Usuario;
+import com.example.mathe.matchandplay.*;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    Criaconexao conectorDoBD = new Criaconexao();
+    LinearLayout layoutContentLista;
+    ListView usuarioListView;
+    ArrayList<Usuario> arrayListUsuario;
+    ArrayAdapter<Usuario> arrayAdapterUsuario;
+    UsuarioRepositorio repositorioUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        usuarioListView = findViewById(R.id.usuariosList);
+        //cria conexao com o BD, para poder preencher a lista com os interessados e/ou proprietarios
+        conectorDoBD.criarConexao(this);
+        preencheLista();
+
+
+        usuarioListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int
+                    position, long id) {
+                Usuario userEnviado = arrayAdapterUsuario.getItem(position);
+                Intent it = new Intent(MainActivity.this, MostraUsuario.class);
+                it.putExtra("chave_pessoa", userEnviado);
+                startActivity(it);
+            }
+        });
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -41,6 +75,15 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public void preencheLista(){
+        arrayListUsuario = repositorioUsers.retornaInteressadosEProprietarios();
+
+        if(usuarioListView!=null) {
+            arrayAdapterUsuario = new ArrayAdapter<Usuario>(this, android.R.layout.simple_list_item_1, arrayListUsuario);
+            usuarioListView.setAdapter(arrayAdapterUsuario);
+        }
     }
 
     @Override
