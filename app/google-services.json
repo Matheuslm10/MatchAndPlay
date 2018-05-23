@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "22757678701",
+    "firebase_url": "https://matchandplay-ce8a9.firebaseio.com",
+    "project_id": "matchandplay-ce8a9",
+    "storage_bucket": "matchandplay-ce8a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22757678701:android:a9bcf82e860dcdd9",
+        "android_client_info": {
+          "package_name": "com.example.mathe.matchandplay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22757678701-447do2ni9hmcgjjhdjhkmme10kmrlrba.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mathe.matchandplay",
+            "certificate_hash": "8e97e8c9d20fd9b3ac10bedc792a6bfea6ecdf4d"
+          }
+        },
+        {
+          "client_id": "22757678701-t553jbp52d53dmrrta9i7qlhldi9gphc.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "22757678701-t553jbp52d53dmrrta9i7qlhldi9gphc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRmojZjbdGXRU1nziIG1mDNaDFdQFXmdk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22757678701-t553jbp52d53dmrrta9i7qlhldi9gphc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
