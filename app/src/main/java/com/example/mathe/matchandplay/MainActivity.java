@@ -21,7 +21,6 @@ import android.widget.ListView;
 import com.example.mathe.matchandplay.BD.Criaconexao;
 import com.example.mathe.matchandplay.BD.UsuarioRepositorio;
 import com.example.mathe.matchandplay.ClassesObjetos.Usuario;
-import com.example.mathe.matchandplay.*;
 
 import java.util.ArrayList;
 
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         usuarioListView = findViewById(R.id.usuariosList);
-        //cria conexao com o BD, para poder preencher a lista com os interessados e/ou proprietarios
+        //cria conexao com o BD, para poder preencher  a lista com os interessados e/ou proprietarios
         conectorDoBD.criarConexao(this);
         preencheLista();
 
@@ -78,7 +77,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void preencheLista(){
-        arrayListUsuario = repositorioUsers.retornaInteressadosEProprietarios();
+        int idusuario = 0; //trocar
+        arrayListUsuario = repositorioUsers.retornaInteressadosEProprietarios(idusuario);
 
         if(usuarioListView!=null) {
             arrayAdapterUsuario = new ArrayAdapter<Usuario>(this, android.R.layout.simple_list_item_1, arrayListUsuario);

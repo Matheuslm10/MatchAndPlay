@@ -50,22 +50,22 @@ public class UsuarioRepositorio {
         conexao.update("usuario", contentValues, "idusuario = ?", parametros);
     }
 
-    public ArrayList<Usuario> retornaInteressadosEProprietarios(){
+    public ArrayList<Usuario> retornaInteressadosEProprietarios(int idusuario){
         ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT DISTINCT usuario.*                            ");
-        sql.append("FROM usuario                                         ");
-        sql.append("WHERE idusuario IN                                   ");
-        sql.append("	(SELECT DISTINCT jd.idusuario                    ");
-        sql.append("	FROM jogosdesejados AS jd JOIN meusjogos AS mj   ");
-        sql.append("	WHERE jd.idjogo=mj.idjogo AND mj.idusuario=1     ");
-        sql.append("	                                                 ");
-        sql.append("	UNION                                            ");
-        sql.append("	                                                 ");
-        sql.append("	SELECT DISTINCT	mj.idusuario                     ");
-        sql.append("	FROM meusjogos AS mj JOIN jogosdesejados AS jd   ");
-        sql.append("	WHERE mj.idjogo=jd.idjogo AND jd.idusuario=1);   ");
+        sql.append("SELECT DISTINCT usuario.*                                         ");
+        sql.append("FROM usuario                                                      ");
+        sql.append("WHERE idusuario IN                                                ");
+        sql.append("	(SELECT DISTINCT jd.idusuario                                 ");
+        sql.append("	FROM jogosdesejados AS jd JOIN meusjogos AS mj                ");
+        sql.append("	WHERE jd.idjogo=mj.idjogo AND mj.idusuario="+idusuario+"      ");
+        sql.append("	                                                              ");
+        sql.append("	UNION                                                         ");
+        sql.append("	                                                              ");
+        sql.append("	SELECT DISTINCT	mj.idusuario                                  ");
+        sql.append("	FROM meusjogos AS mj JOIN jogosdesejados AS jd                ");
+        sql.append("	WHERE mj.idjogo=jd.idjogo AND jd.idusuario="+idusuario+");    ");
 
         Cursor resultado = conexao.rawQuery(sql.toString(), null);
 
@@ -83,6 +83,46 @@ public class UsuarioRepositorio {
             }while(resultado.moveToNext());
         }
         return usuarios;
+    }
+
+    //verifica se existe pelo menos um interessado.
+    public boolean verificaInteressados(int idusuario){
+        boolean possuiAlgumInteressado = true;
+        int quantidade;
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT COUNT(result.idusuario) AS qtd                                 ");
+        sql.append("FROM (SELECT DISTINCT jd.idusuario                                    ");
+        sql.append("FROM jogosdesejados AS jd JOIN meusjogos AS mj                        ");
+        sql.append("WHERE jd.idjogo=mj.idjogo AND mj.idusuario="+idusuario+") AS result;  ");
+
+        Cursor resultado = conexao.rawQuery(sql.toString(), null);
+        resultado.moveToFirst();
+        quantidade = resultado.getInt(resultado.getColumnIndexOrThrow("qtd"));
+        if(quantidade > 0){
+            return possuiAlgumInteressado;
+        }else{
+            return false;
+        }
+    }
+
+    //verifica se existe pelo menos um proprietario.
+    public boolean verificaProprietarios(int idusuario){
+        boolean possuiAlgumProprietario = true;
+        int quantidade;
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT COUNT(result.idusuario) AS qtd                                 ");
+        sql.append("FROM (SELECT DISTINCT mj.idusuario                                    ");
+        sql.append("FROM meusjogos AS mj JOIN jogosdesejados AS jd                        ");
+        sql.append("WHERE mj.idjogo=jd.idjogo AND jd.idusuario="+idusuario+") AS result;  ");
+
+        Cursor resultado = conexao.rawQuery(sql.toString(), null);
+        resultado.moveToFirst();
+        quantidade = resultado.getInt(resultado.getColumnIndexOrThrow("qtd"));
+        if(quantidade > 0){
+            return possuiAlgumProprietario;
+        }else{
+            return false;
+        }
     }
 
 }
