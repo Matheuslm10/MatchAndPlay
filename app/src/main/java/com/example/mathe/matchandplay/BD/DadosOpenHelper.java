@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DadosOpenHelper extends SQLiteOpenHelper {
 
     public DadosOpenHelper(Context context) {
-        //
+        ///
         super(context, "Empresa", null, 1);
     }
 
