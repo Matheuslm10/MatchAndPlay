@@ -20,6 +20,7 @@ import android.widget.ListView;
 
 import com.example.mathe.matchandplay.BD.Criaconexao;
 import com.example.mathe.matchandplay.BD.UsuarioRepositorio;
+import com.example.mathe.matchandplay.Cadastro.CadastroUsuario;
 import com.example.mathe.matchandplay.ClassesObjetos.Usuario;
 
 import java.util.ArrayList;
@@ -30,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ListView usuarioListView;
     ArrayList<Usuario> arrayListUsuario;
     ArrayAdapter<Usuario> arrayAdapterUsuario;
-    UsuarioRepositorio repositorioUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         usuarioListView = findViewById(R.id.usuariosList);
         //cria conexao com o BD, para poder preencher  a lista com os interessados e/ou proprietarios
-        conectorDoBD.criarConexao(this);
-        preencheLista();
+        conectorDoBD.criarConexao(this, 1);
+        //preencheLista();
 
 
         usuarioListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent it = new Intent(MainActivity.this, CadastroUsuario.class);
+                startActivity(it);
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void preencheLista(){
         int idusuario = 0; //trocar
-        arrayListUsuario = repositorioUsers.retornaInteressadosEProprietarios(idusuario);
+        arrayListUsuario = conectorDoBD.usuarioRepositorio.retornaInteressadosEProprietarios(idusuario);
 
         if(usuarioListView!=null) {
             arrayAdapterUsuario = new ArrayAdapter<Usuario>(this, android.R.layout.simple_list_item_1, arrayListUsuario);

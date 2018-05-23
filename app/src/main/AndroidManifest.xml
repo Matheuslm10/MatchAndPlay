@@ -20,7 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Faq" />
-        <activity android:name=".MostraUsuario"></activity>
+        <activity android:name=".MostraUsuario" />
+        <activity android:name=".Cadastro.CadastroUsuario"></activity>
     </application>
 
 </manifest>

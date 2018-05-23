@@ -13,14 +13,20 @@ import android.database.sqlite.SQLiteDatabase;
 public class Criaconexao {
 
     DadosOpenHelper dadosOpenHelper;
-    private SQLiteDatabase conexao;
-    UsuarioRepositorio usuarioRepositorio;
+    public SQLiteDatabase conexao;
+    public UsuarioRepositorio usuarioRepositorio;
+    public JogoRepositorio jogoRepositorio;
 
-    public void criarConexao(Context context){
+    // "qual" = 1 para usuarioRepositorio, e 2 para jogoRepositorio
+    public void criarConexao(Context context, int qual){
         try{
             dadosOpenHelper = new DadosOpenHelper(context);
             conexao = dadosOpenHelper.getWritableDatabase();
-            usuarioRepositorio = new UsuarioRepositorio(conexao);
+            if(qual==1){
+                usuarioRepositorio = new UsuarioRepositorio(conexao);
+            }else if(qual==2){
+                jogoRepositorio = new JogoRepositorio(conexao);
+            }
 
         }catch (SQLException ex){
             AlertDialog.Builder dlg = new AlertDialog.Builder(context);

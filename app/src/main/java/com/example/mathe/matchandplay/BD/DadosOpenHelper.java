@@ -36,6 +36,25 @@ public class DadosOpenHelper extends SQLiteOpenHelper {
         return sql.toString();
     }
 
+    public String populaJogos(){
+        StringBuilder sql = new StringBuilder();
+
+
+        //só está executando o primeiro comando sql, vai ter que colocar tudo isso num array e percorrer e ir preenchendo o bd
+        sql.append("INSERT INTO jogo (nomejogo) VALUES ('Jogo da Vida');   ");
+        sql.append("INSERT INTO jogo (nomejogo) VALUES ('Detetive');       ");
+        sql.append("INSERT INTO jogo (nomejogo) VALUES ('WAR I');          ");
+        sql.append("INSERT INTO jogo (nomejogo) VALUES ('WAR II');         ");
+        sql.append("INSERT INTO jogo (nomejogo) VALUES ('Imagem & Ação');  ");
+        sql.append("INSERT INTO jogo (nomejogo) VALUES ('Bozó');           ");
+        sql.append("INSERT INTO jogo (nomejogo) VALUES ('Truco');          ");
+        sql.append("INSERT INTO jogo (nomejogo) VALUES ('Poker');          ");
+        sql.append("INSERT INTO jogo (nomejogo) VALUES ('Xadrez');         ");
+        sql.append("INSERT INTO jogo (nomejogo) VALUES ('Stop');           ");
+
+        return sql.toString();
+    }
+
 
     public String getCreateTableMeusJogos(){
         StringBuilder sql = new StringBuilder();
@@ -65,6 +84,7 @@ public class DadosOpenHelper extends SQLiteOpenHelper {
         db.execSQL(getCreateTableUsuario());
         db.execSQL(getCreateTableMeusJogos());
         db.execSQL(getCreateTableJogosDesejados());
+        db.execSQL(populaJogos());
     }
 
     @Override
