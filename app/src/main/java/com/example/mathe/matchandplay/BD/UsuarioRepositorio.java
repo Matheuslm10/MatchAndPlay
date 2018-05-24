@@ -23,9 +23,9 @@ public class UsuarioRepositorio {
 
     public void inserir(Usuario usuario){
         ContentValues contentValues = new ContentValues();
-        contentValues.put("nomeusuario", usuario.nomeusuario);
-        contentValues.put("email", usuario.email);
-        contentValues.put("senha", usuario.senha);
+        contentValues.put("nomeusuario", usuario.getNomeusuario());
+        contentValues.put("email", usuario.getEmail());
+        contentValues.put("senha", usuario.getSenha());
 
         conexao.insertOrThrow("usuario", null, contentValues);
     }
@@ -40,12 +40,12 @@ public class UsuarioRepositorio {
     //futuramente poderia existir dois metodos desse, um que fosse exclusivo para a senha e o outro para o restante dos atributos
     public void alterar(Usuario usuario){
         ContentValues contentValues = new ContentValues();
-        contentValues.put("nomeusuario", usuario.nomeusuario);
-        contentValues.put("email", usuario.email);
-        contentValues.put("senha", usuario.senha);
+        contentValues.put("nomeusuario", usuario.getNomeusuario());
+        contentValues.put("email", usuario.getEmail());
+        contentValues.put("senha", usuario.getSenha());
 
         String[] parametros = new String[1];
-        parametros[0] = String.valueOf(usuario.idusuario);
+        parametros[0] = String.valueOf(usuario.getIdusuario());
 
         conexao.update("usuario", contentValues, "idusuario = ?", parametros);
     }
@@ -74,10 +74,10 @@ public class UsuarioRepositorio {
             do{
                 Usuario user = new Usuario();
 
-                user.idusuario = resultado.getInt( resultado.getColumnIndexOrThrow("idusuario"));
-                user.nomeusuario = resultado.getString(resultado.getColumnIndexOrThrow("nomeusuario"));
-                user.email = resultado.getString(resultado.getColumnIndexOrThrow("email"));
-                user.senha = resultado.getString(resultado.getColumnIndexOrThrow("senha"));
+                user.setIdusuario(resultado.getInt( resultado.getColumnIndexOrThrow("idusuario")));
+                user.setNomeusuario(resultado.getString(resultado.getColumnIndexOrThrow("nomeusuario")));
+                user.setEmail(resultado.getString(resultado.getColumnIndexOrThrow("email")));
+                user.setSenha(resultado.getString(resultado.getColumnIndexOrThrow("senha")));
 
                 usuarios.add(user);
             }while(resultado.moveToNext());

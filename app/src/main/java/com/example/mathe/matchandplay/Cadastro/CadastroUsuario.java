@@ -38,7 +38,7 @@ public class CadastroUsuario extends AppCompatActivity implements OnItemSelected
         conectorDoBD.criarConexao(this, 2);
         ArrayList<Jogo> arrayJogos = conectorDoBD.jogoRepositorio.buscarTodos();
         for(Jogo game : arrayJogos) {
-            jogos.add(game.nomejogo);
+            jogos.add(game.getNomejogo());
         }
         sp.setAdapter(adapter);
         /////

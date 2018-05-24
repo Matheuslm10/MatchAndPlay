@@ -29,8 +29,8 @@ public class JogoRepositorio {
             do{
                 Jogo jogo = new Jogo();
 
-                jogo.idjogo = resultado.getInt( resultado.getColumnIndexOrThrow("idjogo"));
-                jogo.nomejogo = resultado.getString(resultado.getColumnIndexOrThrow("nomejogo"));
+                jogo.setIdjogo(resultado.getInt( resultado.getColumnIndexOrThrow("idjogo")));
+                jogo.setNomejogo(resultado.getString(resultado.getColumnIndexOrThrow("nomejogo")));
                 jogos.add(jogo);
 
             }while(resultado.moveToNext());
