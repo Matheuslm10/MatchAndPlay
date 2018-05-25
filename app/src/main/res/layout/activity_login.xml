@@ -43,19 +43,21 @@
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:background="@drawable/formatobotao"
-        android:onClick="onClickBtnTemporario"
         android:text="Entrar"
         android:textColor="#FFFFFF"
         tools:layout_editor_absoluteX="105dp"
         tools:layout_editor_absoluteY="140dp" />
 
     <TextView
+        android:id="@+id/txtSemCadastro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Não tem cadastro? Clique aqui."
         android:gravity="center"
         android:textSize="15sp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:onClick="irParaCadastro"
+        android:clickable="true"/>
 
 
 </LinearLayout>
