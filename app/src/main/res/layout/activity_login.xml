@@ -10,6 +10,7 @@
     android:layout_height="match_parent"
     tools:context=".Login"
     android:orientation="vertical"
+    android:gravity="center"
     >
 
     <ImageView
@@ -17,7 +18,6 @@
         android:layout_width="277dp"
         android:layout_height="262dp"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
         app:srcCompat="@drawable/logo" />
     
     

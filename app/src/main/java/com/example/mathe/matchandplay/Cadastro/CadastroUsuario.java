@@ -15,7 +15,10 @@ import android.widget.AdapterView.OnItemSelectedListener;
 
 import java.util.ArrayList;
 
-public class CadastroUsuario extends AppCompatActivity implements OnItemSelectedListener {
+public class CadastroUsuario extends AppCompatActivity {
+
+    //  IMPLEMENTAR AQUI
+    /*
     Criaconexao conectorDoBD = new Criaconexao();
     String jogoSelecionado = "";
 
@@ -51,4 +54,5 @@ public class CadastroUsuario extends AppCompatActivity implements OnItemSelected
     public void onNothingSelected(AdapterView<?> parent) {
         // Another interface callback
     }
+    */
 }
