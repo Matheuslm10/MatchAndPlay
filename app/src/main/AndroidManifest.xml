@@ -19,9 +19,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Faq" />
         <activity android:name=".MostraUsuario" />
         <activity android:name=".Cadastro.CadastroUsuario" />
@@ -35,6 +33,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MeusJogos"
+            android:label="@string/title_activity_meus_jogos"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".JogosDesejados"
+            android:label="@string/title_activity_jogos_desejados"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
