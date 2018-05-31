@@ -23,7 +23,7 @@ public class Login extends AppCompatActivity {
     private EditText edtEmail;
     private EditText edtSenha;
     private Button btnEntrar;
-    private FirebaseAuth auteticacao;
+    private FirebaseAuth autenticacao;
     private Usuario usuario;
     private TextView txtSemCadastro;
 
@@ -40,8 +40,7 @@ public class Login extends AppCompatActivity {
         btnEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!edtEmail.getText().toString().equals("") &&
-                        !edtSenha.getText().toString().equals("")) {
+                if (!edtEmail.getText().toString().equals("") && !edtSenha.getText().toString().equals("")) {
 
                     usuario = new Usuario();
                     usuario.setEmail(edtEmail.getText().toString());
@@ -58,8 +57,8 @@ public class Login extends AppCompatActivity {
 
 
     private void validarLogin() {
-        auteticacao = ConfiguracaoFireBase.getFirebaseAutenticacao();
-        auteticacao.signInWithEmailAndPassword(usuario.getEmail(), usuario.getSenha()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        autenticacao = ConfiguracaoFireBase.getFirebaseAutenticacao();
+        autenticacao.signInWithEmailAndPassword(usuario.getEmail(), usuario.getSenha()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
