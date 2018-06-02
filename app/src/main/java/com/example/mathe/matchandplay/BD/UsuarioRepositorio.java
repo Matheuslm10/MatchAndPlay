@@ -74,7 +74,7 @@ public class UsuarioRepositorio {
             do{
                 Usuario user = new Usuario();
 
-                user.setIdusuario(resultado.getInt( resultado.getColumnIndexOrThrow("idusuario")));
+                user.setIdusuario(resultado.getString( resultado.getColumnIndexOrThrow("idusuario")));
                 user.setNomeusuario(resultado.getString(resultado.getColumnIndexOrThrow("nomeusuario")));
                 user.setEmail(resultado.getString(resultado.getColumnIndexOrThrow("email")));
                 user.setSenha(resultado.getString(resultado.getColumnIndexOrThrow("senha")));

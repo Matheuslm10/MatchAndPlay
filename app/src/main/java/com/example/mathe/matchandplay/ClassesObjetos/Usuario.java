@@ -12,7 +12,7 @@ import java.util.Map;
  */
 
 public class Usuario  implements Serializable {
-    private int idusuario;
+    private String idusuario;
     private String nomeusuario;
     private String email;
     private String senha;
@@ -37,11 +37,11 @@ public class Usuario  implements Serializable {
 
     }
 
-    public int getIdusuario() {
+    public String getIdusuario() {
         return idusuario;
     }
 
-    public void setIdusuario(int idusuario) {
+    public void setIdusuario(String idusuario) {
         this.idusuario = idusuario;
     }
 

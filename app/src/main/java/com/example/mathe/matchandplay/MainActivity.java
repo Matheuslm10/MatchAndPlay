@@ -127,8 +127,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            Intent it = new Intent(this, MeusJogos.class);
+            startActivity(it);
+
         } else if (id == R.id.nav_gallery) {
+            Intent it = new Intent(this, JogosDesejados.class);
+            startActivity(it);
 
         } else if (id == R.id.nav_slideshow) {
             Intent it = new Intent(this, Faq.class);
