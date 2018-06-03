@@ -23,6 +23,6 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="title_activity_meus_jogos">MeusJogos</string>
-    <string name="title_activity_jogos_desejados">JogosDesejados</string>
+    <string name="title_activity_meus_jogos">Meus Jogos</string>
+    <string name="title_activity_jogos_desejados">Jogos Desejados</string>
 </resources>

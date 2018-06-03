@@ -4,20 +4,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.Toolbar;
 
 import com.example.mathe.matchandplay.R;
 
-public class CadastrarMeusJogos extends AppCompatActivity {
+public class CadastrarJogosDesejados extends AppCompatActivity {
 
     private CheckBox xadrez, truco, uno, dama, banco_imobiliario, jogo_vida, war, detetive, imagem_acao;
-    private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastrar_meus_jogos);
-        setTitle("Meus Jogos");
+        setContentView(R.layout.activity_cadastrar_jogos_desejados);
+        setTitle("Jogos Desejados");
 
         xadrez = findViewById(R.id.xadrez);
         truco = findViewById(R.id.truco);
@@ -41,14 +40,14 @@ public class CadastrarMeusJogos extends AppCompatActivity {
                 if (checked) {
                     // Put some meat on the sandwich
                 } else
-                // Remove the meat
-                break;
+                    // Remove the meat
+                    break;
             case R.id.xadrez:
                 if (checked) {
                     // Cheese me
                 } else
-                // I'm lactose intolerant
-                break;
+                    // I'm lactose intolerant
+                    break;
             case R.id.dama:
                 if (checked) {
                     // Cheese me
@@ -92,7 +91,7 @@ public class CadastrarMeusJogos extends AppCompatActivity {
                     // I'm lactose intolerant
                     break;
 
-            //TODO default
+                //TODO default
         }
     }
 

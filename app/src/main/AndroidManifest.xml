@@ -41,7 +41,8 @@
             android:name=".JogosDesejados"
             android:label="@string/title_activity_jogos_desejados"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Cadastro.CadastrarMeusJogos"></activity>
+        <activity android:name=".Cadastro.CadastrarMeusJogos" />
+        <activity android:name=".Cadastro.CadastrarJogosDesejados"></activity>
     </application>
 
 </manifest>

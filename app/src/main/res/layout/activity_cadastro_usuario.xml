@@ -49,7 +49,8 @@
         android:text="Cadastrar"
         android:textColor="#FFFFFF"
         tools:layout_editor_absoluteX="105dp"
-        tools:layout_editor_absoluteY="140dp" />
+        tools:layout_editor_absoluteY="140dp"
+        />
 
 
 </LinearLayout>
