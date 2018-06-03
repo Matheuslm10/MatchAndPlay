@@ -13,28 +13,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.mathe.matchandplay.Adapter.UsuarioAdapter;
 import com.example.mathe.matchandplay.BD.ConfiguracaoFireBase;
-import com.example.mathe.matchandplay.BD.Criaconexao;
-import com.example.mathe.matchandplay.BD.UsuarioRepositorio;
-import com.example.mathe.matchandplay.Cadastro.CadastroUsuario;
 import com.example.mathe.matchandplay.ClassesObjetos.Usuario;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    Criaconexao conectorDoBD = new Criaconexao();
-    LinearLayout layoutContentLista;
+
     ListView usuarioListView;
     private ArrayAdapter<Usuario> adapter;
     ArrayList<Usuario> arrayListUsuario;
-    ArrayAdapter<Usuario> arrayAdapterUsuario;
+    private DatabaseReference firebase;
+    private ValueEventListener valueEventListenerUsuarios;
 
     private FirebaseAuth usuarioFirebase;
 
@@ -48,26 +48,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         usuarioFirebase = ConfiguracaoFireBase.getFirebaseAutenticacao();
 
         //relacionando a ListView com o Adapter de Usuarios
+        arrayListUsuario = new ArrayList<>();
         usuarioListView = findViewById(R.id.usuariosList);
         adapter = new UsuarioAdapter(this, arrayListUsuario);
         usuarioListView.setAdapter(adapter);
 
+        firebase = ConfiguracaoFireBase.getFireBase().child("usuario");
 
-
-
-
-        usuarioListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        valueEventListenerUsuarios = new ValueEventListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int
-                    position, long id) {
-                Usuario userEnviado = arrayAdapterUsuario.getItem(position);
-                Intent it = new Intent(MainActivity.this, MostraUsuario.class);
-                it.putExtra("chave_pessoa", userEnviado);
-                startActivity(it);
-            }
-        });
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                arrayListUsuario.clear();
 
+                for (DataSnapshot dados : dataSnapshot.getChildren()) {
+                    Usuario novosUsuarios = dados.getValue(Usuario.class);
+
+                    arrayListUsuario.add(novosUsuarios);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -88,16 +93,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    public void preencheLista(){
-        int idusuario = 0; //trocar
-        arrayListUsuario = conectorDoBD.usuarioRepositorio.retornaInteressadosEProprietarios(idusuario);
-
-        if(usuarioListView!=null) {
-            arrayAdapterUsuario = new ArrayAdapter<Usuario>(this, android.R.layout.simple_list_item_1, arrayListUsuario);
-            usuarioListView.setAdapter(arrayAdapterUsuario);
-        }
     }
 
     @Override
@@ -164,6 +159,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = new Intent(MainActivity.this, Login.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        firebase.removeEventListener(valueEventListenerUsuarios);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebase.addValueEventListener(valueEventListenerUsuarios);
     }
 
 
