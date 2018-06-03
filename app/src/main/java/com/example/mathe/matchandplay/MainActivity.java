@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.example.mathe.matchandplay.Adapter.UsuarioAdapter;
 import com.example.mathe.matchandplay.BD.ConfiguracaoFireBase;
 import com.example.mathe.matchandplay.BD.Criaconexao;
 import com.example.mathe.matchandplay.BD.UsuarioRepositorio;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Criaconexao conectorDoBD = new Criaconexao();
     LinearLayout layoutContentLista;
     ListView usuarioListView;
+    private ArrayAdapter<Usuario> adapter;
     ArrayList<Usuario> arrayListUsuario;
     ArrayAdapter<Usuario> arrayAdapterUsuario;
 
@@ -45,10 +47,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         usuarioFirebase = ConfiguracaoFireBase.getFirebaseAutenticacao();
 
+        //relacionando a ListView com o Adapter de Usuarios
         usuarioListView = findViewById(R.id.usuariosList);
-        //cria conexao com o BD, para poder preencher  a lista com os interessados e/ou proprietarios
-        conectorDoBD.criarConexao(this, 1);
-        //preencheLista();
+        adapter = new UsuarioAdapter(this, arrayListUsuario);
+        usuarioListView.setAdapter(adapter);
+
+
+
 
 
         usuarioListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
