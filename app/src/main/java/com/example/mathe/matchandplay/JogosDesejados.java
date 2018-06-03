@@ -1,11 +1,15 @@
 package com.example.mathe.matchandplay;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+
+import com.example.mathe.matchandplay.Cadastro.CadastrarJogosDesejados;
+import com.example.mathe.matchandplay.Cadastro.CadastrarMeusJogos;
 
 public class JogosDesejados extends AppCompatActivity {
 
@@ -24,6 +28,12 @@ public class JogosDesejados extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    public void cadastrarJogosDesejados (View v){
+        Intent it = new Intent(this, CadastrarJogosDesejados.class);
+        startActivity(it);
+
     }
 
 }
