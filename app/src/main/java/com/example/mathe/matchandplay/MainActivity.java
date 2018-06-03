@@ -18,10 +18,12 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.example.mathe.matchandplay.BD.ConfiguracaoFireBase;
 import com.example.mathe.matchandplay.BD.Criaconexao;
 import com.example.mathe.matchandplay.BD.UsuarioRepositorio;
 import com.example.mathe.matchandplay.Cadastro.CadastroUsuario;
 import com.example.mathe.matchandplay.ClassesObjetos.Usuario;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -32,12 +34,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ArrayList<Usuario> arrayListUsuario;
     ArrayAdapter<Usuario> arrayAdapterUsuario;
 
+    private FirebaseAuth usuarioFirebase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        usuarioFirebase = ConfiguracaoFireBase.getFirebaseAutenticacao();
+
         usuarioListView = findViewById(R.id.usuariosList);
         //cria conexao com o BD, para poder preencher  a lista com os interessados e/ou proprietarios
         conectorDoBD.criarConexao(this, 1);
@@ -139,12 +146,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(it);
 
         } else if (id == R.id.nav_manage) {
-
+            deslogarUsuario();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void deslogarUsuario() {
+        usuarioFirebase.signOut();
+        Intent intent = new Intent(MainActivity.this, Login.class);
+        startActivity(intent);
+        finish();
     }
 
 
