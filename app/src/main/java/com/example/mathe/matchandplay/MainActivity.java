@@ -1,5 +1,6 @@
 package com.example.mathe.matchandplay;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,8 +15,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mathe.matchandplay.Adapter.UsuarioAdapter;
 import com.example.mathe.matchandplay.BD.ConfiguracaoFireBase;
@@ -24,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -35,8 +38,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ArrayList<Usuario> arrayListUsuario;
     private DatabaseReference firebase;
     private ValueEventListener valueEventListenerUsuarios;
-
     private FirebaseAuth usuarioFirebase;
+
+    //dados no menu lateral
+    private TextView nomeUsuario;
+    private TextView emailUsuario;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +51,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setTitle("Match's");
 
+        firebase = ConfiguracaoFireBase.getFireBase().child("usuario");
         usuarioFirebase = ConfiguracaoFireBase.getFirebaseAutenticacao();
 
         //relacionando a ListView com o Adapter de Usuarios
@@ -53,8 +62,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapter = new UsuarioAdapter(this, arrayListUsuario);
         usuarioListView.setAdapter(adapter);
 
-        firebase = ConfiguracaoFireBase.getFireBase().child("usuario");
 
+        //colocando os dados do usuario logado no menu lateral
+        View header = ((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0);
+        nomeUsuario = (TextView) header.findViewById(R.id.textViewNomeUsuario);
+        emailUsuario = (TextView) header.findViewById(R.id.textViewEmailUsuario);
+        Query query = firebase.orderByChild("email").equalTo(usuarioFirebase.getCurrentUser().getEmail());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                        Usuario users = issue.getValue(Usuario.class);
+                        Toast.makeText(MainActivity.this, "nome:"+users.getNomeusuario(), Toast.LENGTH_SHORT).show();
+                        nomeUsuario.setText(users.getNomeusuario());
+                        emailUsuario.setText(users.getEmail());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        //preenchendo a lista dos match's
         valueEventListenerUsuarios = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -109,6 +142,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+
         return true;
     }
 
