@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,37 +9,36 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-
-
-
             <TextView
-                android:id="@+id/txtNome"
+                android:id="@+id/txtMostraNome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Nome Usuário"
-                android:textSize="30sp" />
-
+                android:textSize="30sp"
+                android:layout_marginTop="10dp"/>
 
             <ImageView
                 android:id="@+id/imgUsuario"
                 android:layout_width="170dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_menu_camera" />
+                android:layout_marginTop="10dp"
+                app:srcCompat="@drawable/perfilsemfoto" />
 
             <TextView
-                android:id="@+id/txtEmail"
+                android:id="@+id/txtMostraEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginTop="10dp"
                 android:text="Email Usuário"
                 android:textSize="20sp" />
 
@@ -48,25 +47,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Meus Jogos"
-                android:textSize="20sp"/>
+                android:layout_marginLeft="25dp"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"/>
 
             <ListView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-
-            </ListView>
+                android:layout_height="match_parent"
+                android:layout_marginLeft="25dp"/>
 
             <TextView
                 android:id="@+id/txtJogosDesejados"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Jogos Desejados"
+                android:layout_marginLeft="25dp"
                 android:textSize="20sp"/>
 
             <ListView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:layout_marginLeft="25dp">
 
 
             </ListView>
@@ -74,4 +75,15 @@
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        app:srcCompat="@android:drawable/sym_action_chat"
+        app:fabSize="auto"/>
+
+
+</android.support.design.widget.CoordinatorLayout>

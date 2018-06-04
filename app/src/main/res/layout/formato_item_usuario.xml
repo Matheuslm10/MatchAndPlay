@@ -11,6 +11,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/perfilsemfoto"
         android:layout_gravity="center"
 
@@ -19,27 +20,26 @@
     <TextView
         android:id="@+id/textViewNome"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:paddingTop="18sp"
         android:layout_weight="1"
         android:text="Fulano de tal"
-        android:textSize="23dp" />
+        android:textSize="20dp" />
 
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="center"
-        android:background="@drawable/ic_menu_camera" />
+        android:background="@drawable/possui" />
 
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginLeft="5dp"
         android:layout_gravity="center"
-        android:background="@drawable/ic_menu_gallery" />
+        android:background="@drawable/deseja" />
 
 
 </LinearLayout>

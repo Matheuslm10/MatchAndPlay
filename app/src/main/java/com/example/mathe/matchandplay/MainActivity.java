@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -74,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot issue : dataSnapshot.getChildren()) {
                         Usuario users = issue.getValue(Usuario.class);
-                        Toast.makeText(MainActivity.this, "nome:"+users.getNomeusuario(), Toast.LENGTH_SHORT).show();
                         nomeUsuario.setText(users.getNomeusuario());
                         emailUsuario.setText(users.getEmail());
                     }
@@ -107,14 +107,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        usuarioListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Usuario usuarioSelecionado = adapter.getItem(position);
                 Intent it = new Intent(MainActivity.this, MostraUsuario.class);
+                it.putExtra("email_user_selected", usuarioSelecionado.getEmail());
                 startActivity(it);
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
 
