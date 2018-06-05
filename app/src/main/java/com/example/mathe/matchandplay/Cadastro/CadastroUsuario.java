@@ -67,9 +67,8 @@ public class CadastroUsuario extends AppCompatActivity {
                     usuario.setNomeusuario(edtCadNome.getText().toString());
                     usuario.setEmail(edtCadEmail.getText().toString());
                     usuario.setSenha(edtCadSenha.getText().toString());
-
-                    //meus jogos
-                    //jogos desejados
+                    //pra meusjogos
+                    //pra jogosdesejados
 
                     cadastrarUsuario();
 

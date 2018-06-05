@@ -4,6 +4,7 @@ import com.example.mathe.matchandplay.BD.ConfiguracaoFireBase;
 import com.google.firebase.database.DatabaseReference;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +17,10 @@ public class Usuario  implements Serializable {
     private String nomeusuario;
     private String email;
     private String senha;
+    private ArrayList<String> meusjogos;
+    private ArrayList<String> jogosdesejados;
+    private boolean interessado;
+    private boolean proprietario;
 
     public Usuario(){
     }
@@ -32,6 +37,10 @@ public class Usuario  implements Serializable {
         hasMapUsuario.put("nomeusuario",getNomeusuario());
         hasMapUsuario.put("email",getEmail());
         hasMapUsuario.put("senha",getSenha());
+        hasMapUsuario.put("meusjogos",getMeusjogos());
+        hasMapUsuario.put("jogosdesejados",getJogosdesejados());
+        hasMapUsuario.put("interessado", isInteressado());
+        hasMapUsuario.put("proprietario", isProprietario());
 
         return hasMapUsuario;
 
@@ -67,5 +76,37 @@ public class Usuario  implements Serializable {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public ArrayList<String> getMeusjogos() {
+        return meusjogos;
+    }
+
+    public void setMeusjogos(ArrayList<String> meusjogos) {
+        this.meusjogos = meusjogos;
+    }
+
+    public ArrayList<String> getJogosdesejados() {
+        return jogosdesejados;
+    }
+
+    public void setJogosdesejados(ArrayList<String> jogosdesejados) {
+        this.jogosdesejados = jogosdesejados;
+    }
+
+    public boolean isInteressado() {
+        return interessado;
+    }
+
+    public void setInteressado(boolean interessado) {
+        this.interessado = interessado;
+    }
+
+    public boolean isProprietario() {
+        return proprietario;
+    }
+
+    public void setProprietario(boolean proprietario) {
+        this.proprietario = proprietario;
     }
 }

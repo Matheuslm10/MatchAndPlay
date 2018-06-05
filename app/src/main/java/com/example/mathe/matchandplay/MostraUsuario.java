@@ -6,6 +6,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +24,11 @@ public class MostraUsuario extends AppCompatActivity {
     String emailSelecionado;
     private TextView nomeUsuario;
     private TextView emailUsuario;
+    ListView listViewMeusJogos;
+    ListView listViewJogosDesejados;
+    ArrayAdapter<String> adapterMJ;
+    ArrayAdapter<String> adapterJD;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +38,9 @@ public class MostraUsuario extends AppCompatActivity {
 
         nomeUsuario = (TextView) findViewById(R.id.txtMostraNome);
         emailUsuario = (TextView) findViewById(R.id.txtMostraEmail);
+        listViewMeusJogos = findViewById(R.id.lvMeusJogos);
+        listViewJogosDesejados = findViewById(R.id.lvJogosDesejados);
+
         Query query = ConfiguracaoFireBase.getFireBase().child("usuario").orderByChild("email").equalTo(emailSelecionado);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -38,6 +50,13 @@ public class MostraUsuario extends AppCompatActivity {
                         Usuario users = issue.getValue(Usuario.class);
                         nomeUsuario.setText(users.getNomeusuario());
                         emailUsuario.setText(users.getEmail());
+
+                        adapterMJ = new ArrayAdapter<String>(MostraUsuario.this, android.R.layout.simple_list_item_1, users.getMeusjogos());
+                        listViewMeusJogos.setAdapter(adapterMJ);
+                        setListViewHeightBasedOnItems(listViewMeusJogos);
+                        adapterJD = new ArrayAdapter<String>(MostraUsuario.this, android.R.layout.simple_list_item_1, users.getJogosdesejados());
+                        listViewJogosDesejados.setAdapter(adapterJD);
+                        setListViewHeightBasedOnItems(listViewJogosDesejados);
                     }
                 }
             }
@@ -48,7 +67,6 @@ public class MostraUsuario extends AppCompatActivity {
             }
         });
 
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +75,38 @@ public class MostraUsuario extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+    }
+
+    public boolean setListViewHeightBasedOnItems(ListView listView) {
+        listView.setDivider(null);
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter != null) {
+
+            int numberOfItems = listAdapter.getCount();
+
+            // Get total height of all items.
+            int totalItemsHeight = 0;
+            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
+                View item = listAdapter.getView(itemPos, null, listView);
+                item.measure(0, 0);
+                totalItemsHeight += item.getMeasuredHeight();
+            }
+
+            // Get total height of all item dividers.
+            int totalDividersHeight = listView.getDividerHeight() *  (numberOfItems - 1);
+
+            // Set list height.
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            params.height = (totalItemsHeight + totalDividersHeight);
+            listView.setLayoutParams(params);
+            listView.requestLayout();
+
+            return true;
+
+        } else {
+            return false;
+        }
 
     }
 }

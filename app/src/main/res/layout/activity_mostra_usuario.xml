@@ -52,9 +52,11 @@
                 android:layout_marginTop="20dp"/>
 
             <ListView
+                android:id="@+id/lvMeusJogos"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="25dp"/>
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="5dp"/>
 
             <TextView
                 android:id="@+id/txtJogosDesejados"
@@ -62,9 +64,11 @@
                 android:layout_height="wrap_content"
                 android:text="Jogos Desejados"
                 android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
                 android:textSize="20sp"/>
 
             <ListView
+                android:id="@+id/lvJogosDesejados"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="25dp">
