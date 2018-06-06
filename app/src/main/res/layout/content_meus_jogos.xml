@@ -8,9 +8,23 @@
     tools:context=".MeusJogos"
     tools:showIn="@layout/activity_meus_jogos">
 
+    <TextView
+        android:id="@+id/msgMJ"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:gravity="center"
+        android:paddingHorizontal="50dp"
+        android:textSize="30dp" />
+
     <ListView
         android:id="@+id/list_meusJogos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
+
+
+
+
+
+
 
 </android.support.constraint.ConstraintLayout>

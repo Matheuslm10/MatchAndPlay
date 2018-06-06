@@ -1,18 +1,36 @@
 package com.example.mathe.matchandplay;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.example.mathe.matchandplay.BD.ConfiguracaoFireBase;
 import com.example.mathe.matchandplay.Cadastro.CadastrarJogosDesejados;
-import com.example.mathe.matchandplay.Cadastro.CadastrarMeusJogos;
+import com.example.mathe.matchandplay.Cadastro.CadastrarJogosDesejados;
+import com.example.mathe.matchandplay.ClassesObjetos.Usuario;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class JogosDesejados extends AppCompatActivity {
 
+    String emailSelecionado;
+    ListView listViewJogosDesejados;
+    TextView msg;
+    FloatingActionButton botaoJD;
+    ArrayAdapter<String> adapter;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +38,40 @@ public class JogosDesejados extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        Intent it = getIntent();
+        emailSelecionado =  it.getStringExtra("email_user_selected_jd");
+
+        listViewJogosDesejados = findViewById(R.id.list_jogosDesejados);
+        msg = findViewById(R.id.msgJD);
+        botaoJD = findViewById(R.id.fab_jd);
+
+        Query query = ConfiguracaoFireBase.getFireBase().child("usuario").orderByChild("email").equalTo(emailSelecionado);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                        Usuario user = issue.getValue(Usuario.class);
+                        ArrayList<String> arraylistJD = user.getJogosdesejados();
+                        if(arraylistJD.get(0).equals("")){
+                            msg.setText("Você não possui jogos nesta lista. Adicione novos jogos clicando no botão abaixo!");
+                            botaoJD.setImageResource(R.drawable.baseline_add_24);
+                        }else{
+                            adapter = new ArrayAdapter<String>(JogosDesejados.this, android.R.layout.simple_list_item_1, user.getJogosdesejados());
+                            listViewJogosDesejados.setAdapter(adapter);
+                        }
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_jd);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

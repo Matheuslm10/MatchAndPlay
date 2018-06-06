@@ -25,14 +25,15 @@
 
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fab_mj"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:onClick="cadastrarMeusJogos"
         android:tint="@android:color/white"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@drawable/baseline_edit_24"
+        tools:ignore="VectorDrawableCompat" />
 
 
 </android.support.design.widget.CoordinatorLayout>

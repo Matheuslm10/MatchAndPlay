@@ -8,6 +8,14 @@
     tools:context=".JogosDesejados"
     tools:showIn="@layout/activity_jogos_desejados">
 
+    <TextView
+        android:id="@+id/msgJD"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:gravity="center"
+        android:paddingHorizontal="50dp"
+        android:textSize="30dp" />
+
     <ListView
         android:id="@+id/list_jogosDesejados"
         android:layout_width="match_parent"

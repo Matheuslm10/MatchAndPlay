@@ -248,19 +248,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_mj) {
             Intent it = new Intent(this, MeusJogos.class);
+            it.putExtra("email_user_selected_mj", logado.getEmail());
             startActivity(it);
 
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_jd) {
             Intent it = new Intent(this, JogosDesejados.class);
+            it.putExtra("email_user_selected_jd", logado.getEmail());
             startActivity(it);
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_conta) {
+            Intent it = new Intent(this, Conta.class);
+            startActivity(it);
+
+        }  else if (id == R.id.nav_info) {
             Intent it = new Intent(this, Faq.class);
             startActivity(it);
 
-        } else if (id == R.id.nav_manage) {
+        }  else if (id == R.id.nav_sair) {
             deslogarUsuario();
         }
 

@@ -5,23 +5,23 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_mj"
             android:icon="@drawable/possui"
             android:title="Meus Jogos" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_jd"
             android:icon="@drawable/deseja"
             android:title="Jogos Desejados" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_info"
             android:icon="@drawable/baseline_info_24"
-            android:title="FAQ" />
+            android:title="Info" />
         <item
             android:id="@+id/nav_conta"
             android:icon="@drawable/baseline_person_24"
             android:title="Conta" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_sair"
             android:icon="@drawable/ic_menu_manage"
             android:title="Sair" />
     </group>
