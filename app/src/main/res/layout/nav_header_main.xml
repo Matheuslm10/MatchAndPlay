@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="175dp"
     android:background="@drawable/side_nav_bar"
     android:gravity="bottom"
     android:orientation="vertical"
@@ -17,31 +17,22 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:background="@drawable/perfilsemfoto"
-        android:paddingTop="@dimen/nav_header_vertical_spacing" />
+        android:layout_marginTop="75dp" />
 
     <TextView
         android:id="@+id/textViewNomeUsuario"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Android Studio"
+        android:layout_height="30dp"
+        android:text="Usuario"
         android:textSize="25dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/textViewEmailUsuario"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:textSize="18dp"
+        android:layout_marginTop="1dp"
         android:text="android.studio@android.com" />
 
-    <Button
-        android:id="@+id/btnEditar"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="Editar perfil"
-        android:background=""
-
-
-        />
 </LinearLayout>

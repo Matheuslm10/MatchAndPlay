@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mathe.matchandplay.ClassesObjetos.Usuario;
@@ -16,6 +17,7 @@ public class UsuarioAdapter extends ArrayAdapter<Usuario> {
 
     private ArrayList<Usuario> usuarios;
     private Context context;
+
 
     public UsuarioAdapter(Context c, ArrayList<Usuario> objects) {
         super(c, 0, objects);
@@ -36,8 +38,22 @@ public class UsuarioAdapter extends ArrayAdapter<Usuario> {
             view = inflater.inflate(R.layout.formato_item_usuario, parent, false);
 
             TextView textViewNome = (TextView) view.findViewById(R.id.textViewNome);
+            ImageView balao = view.findViewById(R.id.ivBalao);
+            ImageView mao = view.findViewById(R.id.ivMao);
 
             Usuario usuarios2 = usuarios.get(position);
+            if(usuarios2.isInteressado()){
+                balao.setImageResource(R.drawable.deseja_aceso);
+            }else{
+                balao.setImageResource(R.drawable.deseja_apagado);
+            }
+
+            if(usuarios2.isProprietario()){
+                mao.setImageResource(R.drawable.possui_aceso);
+            }else{
+                mao.setImageResource(R.drawable.possui_apagado);
+            }
+
             textViewNome.setText(usuarios2.getNomeusuario());
 
         }

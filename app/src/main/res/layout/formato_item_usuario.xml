@@ -29,16 +29,18 @@
         android:textSize="20dp" />
 
     <ImageView
+        android:id="@+id/ivMao"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="center"
         android:background="@drawable/possui" />
 
     <ImageView
+        android:id="@+id/ivBalao"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginLeft="5dp"
         android:layout_gravity="center"
+        android:layout_marginLeft="5dp"
         android:background="@drawable/deseja" />
 
 

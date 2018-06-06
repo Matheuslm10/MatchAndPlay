@@ -37,21 +37,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     ListView usuarioListView;
     private ArrayAdapter<Usuario> adapter;
-    private ArrayAdapter<Usuario> adapterMatches;
-    private ArrayAdapter<String> adapterIds;
     ArrayList<Usuario> arrayListUsuario;
+    ArrayList<Usuario> allUsersArray;
     ArrayList<Usuario> arrayListMatches;
     ArrayList<String> mjLogado = new ArrayList<>();
     ArrayList<String> jdLogado = new ArrayList<>();
 
-    private DatabaseReference firebase;
-    private DatabaseReference meusjogos;
-    private ValueEventListener valueEventListenerUsuarios;
-    private ValueEventListener valueEventListenerMeusJogos;
-    private ValueEventListener listenerUsuarioLogado;
     private FirebaseAuth usuarioFirebase;
     Usuario logado = new Usuario();
     String currentEmail = "";
+    private DatabaseReference firebase;
 
     //dados no menu lateral
     private TextView nomeUsuario;
@@ -72,16 +67,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         arrayListUsuario = new ArrayList<>();
         arrayListMatches = new ArrayList<>();
         usuarioListView = findViewById(R.id.usuariosList);
-        arrayListUsuario.clear();
-        adapter = new UsuarioAdapter(this, arrayListUsuario);
-        usuarioListView.setAdapter(adapter);
-        //adapterMatches = new UsuarioAdapter(this, arrayListMatches);
 
 
         //colocando os dados do usuario logado no menu lateral
         View header = ((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0);
-        nomeUsuario = (TextView) header.findViewById(R.id.textViewNomeUsuario);
-        emailUsuario = (TextView) header.findViewById(R.id.textViewEmailUsuario);
+        nomeUsuario = header.findViewById(R.id.textViewNomeUsuario);
+        emailUsuario = header.findViewById(R.id.textViewEmailUsuario);
         currentEmail = usuarioFirebase.getCurrentUser().getEmail();
         Query query = firebase.orderByChild("email").equalTo(currentEmail);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -90,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot issue : dataSnapshot.getChildren()) {
                         logado = issue.getValue(Usuario.class);
-                        Toast.makeText(MainActivity.this, logado.getNomeusuario(), Toast.LENGTH_SHORT).show();
                         nomeUsuario.setText(logado.getNomeusuario());
                         emailUsuario.setText(logado.getEmail());
                     }
@@ -103,83 +93,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        preencheVetoresJogosLogado();
 
-
-        //preenchendo a lista dos match's
-        valueEventListenerUsuarios = new ValueEventListener() {
+        Query consulta = firebase;
+        consulta.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 arrayListUsuario.clear();
-
-                for (DataSnapshot dados : dataSnapshot.getChildren()) {
-                    Usuario novosUsuarios = dados.getValue(Usuario.class);
-                    //Toast.makeText(MainActivity.this, novosUsuarios.getNomeusuario(), Toast.LENGTH_SHORT).show();
-                    arrayListUsuario.add(novosUsuarios);
-                }
-                //////////////////////////////////////////////
-                preencheVetoresJogosLogado();
-                ArrayList<Usuario> matches = new ArrayList<>();
-
-                //verifica quem quer jogar os jogos do logado
-                for(String jogoX : mjLogado){
-                    for(Usuario user :arrayListUsuario) {
-                        if(user.getJogosdesejados().contains(jogoX)){
-                            user.setInteressado(true);
-                            matches.add(user);
-                            Toast.makeText(MainActivity.this, "match: "+user.getNomeusuario(), Toast.LENGTH_SHORT).show();
-
-                        }
-                    }
-                }
-
-                //verifica quem possui os jogos que o logado deseja
-                for(String jogoX : jdLogado){
-                    for(Usuario user :arrayListUsuario) {
-                        if(user.getMeusjogos().contains(jogoX)){
-                            user.setProprietario(true);
-                            if(!matches.contains(user)){
-                                matches.add(user);
-                                Toast.makeText(MainActivity.this, "match: "+user.getNomeusuario(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                }
-                arrayListUsuario.clear();
-                arrayListUsuario = matches;
-                //////////////////////////////////////////////
-                adapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-
-
-
-        /*
-        //preenchendo a lista dos match's CORRETO
-        valueEventListenerUsuarios = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                arrayListUsuario.clear();
-
                 for (DataSnapshot dados : dataSnapshot.getChildren()) {
                     Usuario novoUsuario = dados.getValue(Usuario.class);
+
                     arrayListUsuario.add(novoUsuario);
                 }
+                atualizarListaMatches();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        };
+        });
 
-        */
-
+        //Trata o clique em um item da lista de match's
         usuarioListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
@@ -191,14 +126,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        //Trata o menu lateral
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public void atualizarListaMatches(){
+        allUsersArray = arrayListUsuario;
+        arrayListMatches = retornaListaDeMatchs();
+        adapter = new UsuarioAdapter(this, arrayListMatches);
+        usuarioListView.setAdapter(adapter);
     }
 
     public void preencheVetoresJogosLogado(){
@@ -224,30 +165,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public ArrayList<Usuario> retornaListaDeMatchs(){
         ArrayList<Usuario> matches = new ArrayList<>();
 
-        //verifica quem quer jogar os jogos do logado
-        for(String jogoX : mjLogado){
-            for(Usuario user :arrayListUsuario) {
-                if(user.getJogosdesejados().contains(jogoX)){
-                    user.setInteressado(true);
-                    matches.add(user);
-                    Toast.makeText(MainActivity.this, "match: "+user.getNomeusuario(), Toast.LENGTH_SHORT).show();
+        //se o logado tiver pelo menos 1 jogo em "meus jogos" faz isso...
+        if(mjLogado!=null){
+            //verifica quem quer jogar os jogos do logado
+            for(String jogoX : mjLogado){
+                for(Usuario user : allUsersArray) {
+                    //se o usuario a ser comparado tiver pelo menos 1 jogo seus "jogos desejados" faz isso...
+                    if(user.getJogosdesejados()!=null){
+                        if(user.getJogosdesejados().contains(jogoX)){
+                            if(!matches.contains(user)){
+                                user.setInteressado(true);
+                                matches.add(user);
+                            }
 
-                }
-            }
-        }
-
-        //verifica quem possui os jogos que o logado deseja
-        for(String jogoX : jdLogado){
-            for(Usuario user :arrayListUsuario) {
-                if(user.getMeusjogos().contains(jogoX)){
-                    user.setProprietario(true);
-                    if(!matches.contains(user)){
-                        matches.add(user);
-                        Toast.makeText(MainActivity.this, "match: "+user.getNomeusuario(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
+
             }
         }
+
+        //se o logado tiver pelo menos 1 jogo em "jogos desejados" faz isso...
+        if(jdLogado!=null){
+            //verifica quem possui os jogos que o logado deseja
+            for(String jogoX : jdLogado){
+                for(Usuario user :allUsersArray) {
+                    //se o usuario a ser comparado tiver pelo menos 1 jogo seus "meus jogos" faz isso...
+                    if(user.getMeusjogos()!=null){
+                        if(user.getMeusjogos().contains(jogoX)){
+                            if(!matches.contains(user)){
+                                user.setProprietario(true);
+                                matches.add(user);
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
 
         return matches;
     }
@@ -323,13 +279,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStop() {
         super.onStop();
-        firebase.removeEventListener(valueEventListenerUsuarios);
+        //firebase.removeEventListener(valueEventListenerUsuarios);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        firebase.addValueEventListener(valueEventListenerUsuarios);
+        //firebase.addValueEventListener(valueEventListenerUsuarios);
     }
 
 
