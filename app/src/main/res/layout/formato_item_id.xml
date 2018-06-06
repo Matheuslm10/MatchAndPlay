@@ -18,5 +18,4 @@
         android:text="O id do usuario aqui"
         android:textSize="20dp" />
 
-
 </LinearLayout>

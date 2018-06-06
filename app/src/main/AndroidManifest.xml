@@ -43,6 +43,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Cadastro.CadastrarMeusJogos" />
         <activity android:name=".Cadastro.CadastrarJogosDesejados" />
+        <activity android:name=".Conta"></activity>
     </application>
 
 </manifest>
