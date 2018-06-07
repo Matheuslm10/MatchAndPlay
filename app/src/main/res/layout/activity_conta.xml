@@ -21,36 +21,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:clickable="true"
         android:onClick="irParaAlterarFoto"
-        android:text="Alterar Foto" />
+        android:text="Alterar Foto"
+        android:textSize="18dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nome" />
+        android:layout_marginTop="5dp"
+        android:text="Alterar nome"
+        android:textSize="18dp"/>
 
     <EditText
         android:id="@+id/edtAlterarNome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Nome do Usuário" />
+        android:inputType="textPersonName" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Alterar senha:" />
+        android:text="Alterar senha:"
+        android:textSize="18dp"/>
 
     <EditText
         android:id="@+id/edtAlterarSenha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="numberPassword"
-        android:text="senha" />
+        android:inputType="textPassword"/>
     <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -61,15 +63,22 @@
     <Button
         android:id="@+id/btnCancelar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_gravity="center"
-        android:text="Cancelar"/>
+        android:textColor="#FFFFFF"
+        android:background="@drawable/formatobotaodesativado"
+        android:text="Cancelar"
+        android:onClick="cancelarAlteracao"/>
     <Button
         android:id="@+id/btnSalvar"
+        android:layout_marginLeft="5dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_gravity="center"
-        android:text="Salvar"/>
+        android:textColor="#FFFFFF"
+        android:background="@drawable/formatobotaodesativado"
+        android:text="Salvar"
+        android:onClick="salvarAlteracao"/>
 
 
     </LinearLayout>
