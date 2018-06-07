@@ -10,6 +10,7 @@ public class Conta extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conta);
+        setTitle("Minha Conta");
     }
 
     public void irParaAlterarFoto(View view) {

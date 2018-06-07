@@ -11,31 +11,28 @@
 
     <ImageView
         android:id="@+id/imgUsuario"
-        android:layout_width="170dp"
-        android:layout_height="150dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         app:srcCompat="@drawable/perfilsemfoto" />
 
     <TextView
-        android:id="@+id/txtFoto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:clickable="true"
         android:onClick="irParaAlterarFoto"
-        android:text="TextView"
-        tools:text="Alterar Foto" />
+        android:text="Alterar Foto" />
 
     <TextView
-        android:id="@+id/txtNome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Nome" />
 
     <EditText
-        android:id="@+id/edtNome"
+        android:id="@+id/edtAlterarNome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -43,19 +40,18 @@
         android:text="Nome do Usuário" />
 
     <TextView
-        android:id="@+id/txtEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Senha" />
+        android:text="Alterar senha:" />
 
     <EditText
-        android:id="@+id/edtEmail"
+        android:id="@+id/edtAlterarSenha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="numberPassword"
         android:text="senha" />
-<LinearLayout
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
@@ -76,14 +72,14 @@
         android:text="Salvar"/>
 
 
-</LinearLayout>
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/btnDeletar"
+        android:id="@+id/btnDeletarConta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="28dp"
         android:text="DELETAR CONTA"
         android:textColor="#f60000"
         android:textSize="18dp"/>
