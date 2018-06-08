@@ -30,7 +30,7 @@ public class JogosDesejados extends AppCompatActivity {
     TextView msg;
     FloatingActionButton botaoJD;
     ArrayAdapter<String> adapter;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,12 +70,13 @@ public class JogosDesejados extends AppCompatActivity {
 
             }
         });
-        
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_jd);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cadastrarJogosDesejados(view);
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
     }

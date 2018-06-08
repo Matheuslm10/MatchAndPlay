@@ -7,7 +7,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,8 +31,6 @@ public class MeusJogos extends AppCompatActivity {
     FloatingActionButton botaoMJ;
     ArrayAdapter<String> adapter;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +53,7 @@ public class MeusJogos extends AppCompatActivity {
                     for (DataSnapshot issue : dataSnapshot.getChildren()) {
                         Usuario user = issue.getValue(Usuario.class);
                         ArrayList<String> arraylistMJ = user.getMeusjogos();
-                        if(arraylistMJ.get(0).equals("")){
+                        if(arraylistMJ.get(0).equals("") ){
                             msg.setText("Você não possui jogos nesta lista. Adicione novos jogos clicando no botão abaixo!");
                             botaoMJ.setImageResource(R.drawable.baseline_add_24);
                         }else {

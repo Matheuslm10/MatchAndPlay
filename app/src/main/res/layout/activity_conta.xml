@@ -9,50 +9,69 @@
     android:layout_marginRight="15dp"
     tools:context=".Conta">
 
-    <ImageView
-        android:id="@+id/imgUsuario"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        app:srcCompat="@drawable/perfilsemfoto" />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="5dp"
         android:clickable="true"
-        android:onClick="irParaAlterarFoto"
-        android:text="Alterar Foto"
-        android:textSize="18dp"/>
+        android:text="Clique na foto para alterá-la:"
+        android:textSize="18dp"
+        android:textColor="#000000"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgUsuario"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="20dp"
+            android:background="@drawable/perfilsemfoto"
+            android:scaleType="centerCrop" />
+
+        <ProgressBar
+            android:id="@+id/progressbarConta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone" />
+
+    </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="Alterar nome"
-        android:textSize="18dp"/>
+        android:textSize="18dp"
+        android:textColor="#000000"/>
 
     <EditText
         android:id="@+id/edtAlterarNome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:textColorHint="#000000"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Alterar senha:"
-        android:textSize="18dp"/>
+        android:textSize="18dp"
+        android:textColor="#000000"/>
 
     <EditText
         android:id="@+id/edtAlterarSenha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword"
+        android:textColorHint="#000000"/>
+
     <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

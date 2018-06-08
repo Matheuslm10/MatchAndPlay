@@ -30,9 +30,9 @@ public class Faq extends AppCompatActivity {
         textView4 = findViewById(R.id.textView4);
         textView6 = findViewById(R.id.textView6);
 
-        textView3.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
-        textView5.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
-        textView7.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
+        //textView3.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
+        //textView5.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
+        //textView7.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
 
     }
 }
