@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+
+<LinearLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,106 +15,30 @@
     >
 
     <TextView
+        android:id="@+id/tenho_editar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
         android:gravity="center"
-        android:text="Tenho e quero jogar:"
-        android:textSize="22sp" />
+        android:textSize="23sp"
+        android:textColor="#000000"
+        android:text="Tenho o jogo e quero jogar:"
+        android:background="#D3D3D3"
 
-    <CheckBox
-        android:id="@+id/xadrez"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Xadrez"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:textSize="18dp"
-        android:onClick="onCheckboxClicked"/>
-    <CheckBox
-        android:id="@+id/truco"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Truco"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:textSize="18dp"
-        android:onClick="onCheckboxClicked"/>
-    <CheckBox
-        android:id="@+id/dama"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Dama"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:textSize="18dp"
-        android:onClick="onCheckboxClicked"/>
-    <CheckBox
-        android:id="@+id/uno"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Uno"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:textSize="18dp"
-        android:onClick="onCheckboxClicked"/>
-    <CheckBox
-        android:id="@+id/banco_imobiliario"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Banco Imobiliário"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:textSize="18dp"
-        android:onClick="onCheckboxClicked"/>
-    <CheckBox
-        android:id="@+id/jogo_vida"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Jogo da Vida"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:textSize="18dp"
-        android:onClick="onCheckboxClicked"/>
-    <CheckBox
-        android:id="@+id/detetive"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Detetive"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:textSize="18dp"
-        android:onClick="onCheckboxClicked"/>
-    <CheckBox
-        android:id="@+id/war"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="War"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:textSize="18dp"
-        android:onClick="onCheckboxClicked"/>
-    <CheckBox
-        android:id="@+id/imagem_acao"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Imagem e Ação"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:textSize="18dp"
-        android:onClick="onCheckboxClicked"/>
+        />
+
+
+    <ListView
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:id="@+id/lista_meusJogos_editar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"></ListView>
 
     <Button
-        android:id="@+id/btnEntrar"
+        android:id="@+id/btnCadastrarMeusJogos"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_gravity="center"
@@ -117,8 +47,14 @@
         android:text="Confirmar"
         android:textColor="#FFFFFF"
         tools:layout_editor_absoluteX="105dp"
-        tools:layout_editor_absoluteY="140dp" />
+        tools:layout_editor_absoluteY="140dp"
+        android:onClick="cadastrarMeusJogos"/>
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
 
 
 </LinearLayout>
+
+</ScrollView>

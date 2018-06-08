@@ -1,124 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".Cadastro.CadastrarMeusJogos"
-    >
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="Não tenho mas quero jogar:"
-        android:textSize="22sp" />
-
-    <CheckBox
-        android:id="@+id/xadrez"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Xadrez"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:textSize="18dp"
-        android:onClick="onCheckboxClicked"/>
-    <CheckBox
-        android:id="@+id/truco"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Truco"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:textSize="18dp"
-        android:onClick="onCheckboxClicked"/>
-    <CheckBox
-        android:id="@+id/dama"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Dama"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:textSize="18dp"
-        android:onClick="onCheckboxClicked"/>
-    <CheckBox
-        android:id="@+id/uno"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Uno"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:textSize="18dp"
-        android:onClick="onCheckboxClicked"/>
-    <CheckBox
-        android:id="@+id/banco_imobiliario"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Banco Imobiliário"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:textSize="18dp"
-        android:onClick="onCheckboxClicked"/>
-    <CheckBox
-        android:id="@+id/jogo_vida"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Jogo da Vida"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:textSize="18dp"
-        android:onClick="onCheckboxClicked"/>
-    <CheckBox
-        android:id="@+id/detetive"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Detetive"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:textSize="18dp"
-        android:onClick="onCheckboxClicked"/>
-    <CheckBox
-        android:id="@+id/war"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="War"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:textSize="18dp"
-        android:onClick="onCheckboxClicked"/>
-    <CheckBox
-        android:id="@+id/imagem_acao"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Imagem e Ação"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:textSize="18dp"
-        android:onClick="onCheckboxClicked"/>
-
-    <Button
-        android:id="@+id/btnEntrar"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/formatobotao"
-        android:text="Confirmar"
-        android:textColor="#FFFFFF"
-        tools:layout_editor_absoluteX="105dp"
-        tools:layout_editor_absoluteY="140dp" />
+    android:fillViewport="true">
 
 
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".Cadastro.CadastrarMeusJogos"
+        >
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/naotenho_editar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:gravity="center"
+            android:textSize="23sp"
+            android:textColor="#000000"
+            android:text="Não tenho o jogo mas quero jogar:"
+            android:background="#D3D3D3"
+
+            />
+
+
+        <ListView
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:id="@+id/lista_jogosDesejados_editar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"></ListView>
+
+        <Button
+            android:id="@+id/btnCadastrarJogosDesejados"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/formatobotao"
+            android:text="Confirmar"
+            android:textColor="#FFFFFF"
+            tools:layout_editor_absoluteX="105dp"
+            tools:layout_editor_absoluteY="140dp"
+            android:onClick="cadastrarJogosDesejados"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
+
+    </LinearLayout>
+
+</ScrollView>
