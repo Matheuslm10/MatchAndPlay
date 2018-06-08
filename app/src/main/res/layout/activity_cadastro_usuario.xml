@@ -1,169 +1,56 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginBottom="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:orientation="vertical">
 
 
-    <LinearLayout
-        xmlns:tools="http://schemas.android.com/tools"
-
+    <EditText
+        android:id="@+id/edtCadNome"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:hint="NOME" />
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:text="Meus dados"
-            android:gravity="center"
-            android:textSize="23sp"
-            android:textColor="#000000"
-            android:background="#D3D3D3"
+    <EditText
+        android:id="@+id/edtCadEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="E-MAIL"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/edtCadSenha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="SENHA"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/edtCadConfirmaSenha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="CONFIRMAÇÃO DA SENHA"
+        android:inputType="textPassword" />
 
 
-            />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:clickable="true"
-            android:text="Clique na foto para alterá-la:"
-            android:textSize="18dp"
-            android:textColor="#000000"/>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/uploadFoto"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="10dp"
-                android:background="@drawable/perfilsemfoto"
-                android:scaleType="centerCrop" />
-
-            <ProgressBar
-                android:id="@+id/progressbarCadastro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:visibility="gone" />
-
-        </RelativeLayout>
+    <Button
+        android:id="@+id/btnCadastrar"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/formatobotao"
+        android:text="Cadastrar"
+        android:textColor="#FFFFFF"
+        tools:layout_editor_absoluteX="105dp"
+        tools:layout_editor_absoluteY="140dp"
+        />
 
 
-        <EditText
-            android:layout_marginTop="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:id="@+id/edtCadNome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="NOME" />
-
-
-        <EditText
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:id="@+id/edtCadEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="E-MAIL"
-            android:inputType="textEmailAddress" />
-
-        <EditText
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:id="@+id/edtCadSenha"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="SENHA"
-            android:inputType="textPassword" />
-
-        <EditText
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:id="@+id/edtCadConfirmaSenha"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="CONFIRMAÇÃO DA SENHA"
-            android:inputType="textPassword" />
-
-        <TextView
-            android:id="@+id/tenho"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="16dp"
-            android:background="#D3D3D3"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="Tenho o jogo e quero jogar:"
-            android:textColor="#000000"
-            android:textSize="23sp"
-
-            />
-
-
-        <ListView
-            android:layout_marginTop="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:id="@+id/lista_meusJogos"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"></ListView>
-
-
-        <TextView
-            android:id="@+id/naotenho"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:gravity="center"
-            android:textSize="23sp"
-            android:textColor="#000000"
-            android:text="Não tenho o jogo mas quero jogar:"
-            android:layout_marginTop="16dp"
-            android:background="#D3D3D3"
-            />
-
-        <ListView
-            android:layout_marginTop="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:id="@+id/lista_jogosDesejados"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></ListView>
-
-
-        <Button
-            android:id="@+id/btnCadastrar"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/formatobotao"
-            android:text="Cadastrar"
-            android:textColor="#FFFFFF"
-            tools:layout_editor_absoluteX="105dp"
-            tools:layout_editor_absoluteY="140dp"
-            />
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="30dp" />
-
-    </LinearLayout>
-
-
-</ScrollView>
+</LinearLayout>

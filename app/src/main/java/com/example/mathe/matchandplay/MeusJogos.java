@@ -56,7 +56,7 @@ public class MeusJogos extends AppCompatActivity {
                     for (DataSnapshot issue : dataSnapshot.getChildren()) {
                         Usuario user = issue.getValue(Usuario.class);
                         ArrayList<String> arraylistMJ = user.getMeusjogos();
-                        if(arraylistMJ.get(0).equals("") ){
+                        if(arraylistMJ.get(0).equals("")){
                             msg.setText("Você não possui jogos nesta lista. Adicione novos jogos clicando no botão abaixo!");
                             botaoMJ.setImageResource(R.drawable.baseline_add_24);
                         }else {

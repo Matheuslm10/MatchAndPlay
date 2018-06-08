@@ -21,7 +21,6 @@ public class Usuario  implements Serializable {
     private ArrayList<String> jogosdesejados;
     private boolean interessado;
     private boolean proprietario;
-    private String urlFotoPerfil;
 
     public Usuario(){
     }
@@ -42,7 +41,6 @@ public class Usuario  implements Serializable {
         hasMapUsuario.put("jogosdesejados",getJogosdesejados());
         hasMapUsuario.put("interessado", isInteressado());
         hasMapUsuario.put("proprietario", isProprietario());
-        hasMapUsuario.put("urlFotoPerfil",getUrlFotoPerfil());
 
         return hasMapUsuario;
 
@@ -110,13 +108,5 @@ public class Usuario  implements Serializable {
 
     public void setProprietario(boolean proprietario) {
         this.proprietario = proprietario;
-    }
-
-    public String getUrlFotoPerfil() {
-        return urlFotoPerfil;
-    }
-
-    public void setUrlFotoPerfil(String urlFotoPerfil) {
-        this.urlFotoPerfil = urlFotoPerfil;
     }
 }
