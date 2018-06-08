@@ -17,7 +17,8 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:background="@drawable/perfilsemfoto"
-        android:layout_marginTop="75dp" />
+        android:layout_marginTop="75dp"
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/textViewNomeUsuario"

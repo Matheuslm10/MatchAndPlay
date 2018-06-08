@@ -3,6 +3,7 @@ package com.example.mathe.matchandplay;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -16,10 +17,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.mathe.matchandplay.Adapter.IDAdapter;
 import com.example.mathe.matchandplay.Adapter.UsuarioAdapter;
 import com.example.mathe.matchandplay.BD.ConfiguracaoFireBase;
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ArrayList<String> jdLogado = new ArrayList<>();
 
     private FirebaseAuth usuarioFirebase;
+    FirebaseAuth.AuthStateListener listener;
     Usuario logado = new Usuario();
     String currentEmail = "";
     private DatabaseReference firebase;
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //dados no menu lateral
     private TextView nomeUsuario;
     private TextView emailUsuario;
+    public ImageView fotoPerfil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,31 +72,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         arrayListUsuario = new ArrayList<>();
         arrayListMatches = new ArrayList<>();
         usuarioListView = findViewById(R.id.usuariosList);
-
-
-        //colocando os dados do usuario logado no menu lateral
-        View header = ((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0);
-        nomeUsuario = header.findViewById(R.id.textViewNomeUsuario);
-        emailUsuario = header.findViewById(R.id.textViewEmailUsuario);
-        currentEmail = usuarioFirebase.getCurrentUser().getEmail();
-        Query query = firebase.orderByChild("email").equalTo(currentEmail);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot issue : dataSnapshot.getChildren()) {
-                        logado = issue.getValue(Usuario.class);
-                        nomeUsuario.setText(logado.getNomeusuario());
-                        emailUsuario.setText(logado.getEmail());
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
         preencheVetoresJogosLogado();
 
@@ -282,17 +262,54 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         finish();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //firebase.removeEventListener(valueEventListenerUsuarios);
+    private void atualizaMenuLateral(){
+        //colocando os dados do usuario logado no menu lateral
+        View header = ((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0);
+        nomeUsuario = header.findViewById(R.id.textViewNomeUsuario);
+        emailUsuario = header.findViewById(R.id.textViewEmailUsuario);
+        fotoPerfil = header.findViewById(R.id.imageViewFotoUsuario);
+        currentEmail = usuarioFirebase.getCurrentUser().getEmail();
+
+        //setando a foto a partir da autenticação
+        if (usuarioFirebase != null) {
+
+            if (usuarioFirebase.getCurrentUser().getPhotoUrl() != null) {
+                Glide.with(MainActivity.this)
+                        .load(usuarioFirebase.getCurrentUser().getPhotoUrl().toString())
+                        .into(fotoPerfil);
+                //passar como extra no bundle pro menu lateral.
+            }
+        }
+        //
+        Query query = firebase.orderByChild("email").equalTo(currentEmail);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot issue : dataSnapshot.getChildren()) {
+                        logado = issue.getValue(Usuario.class);
+                        nomeUsuario.setText(logado.getNomeusuario());
+                        emailUsuario.setText(logado.getEmail());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        //firebase.addValueEventListener(valueEventListenerUsuarios);
+        atualizaMenuLateral();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
 
 }
