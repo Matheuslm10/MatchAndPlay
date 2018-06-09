@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,14 +16,10 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.Spinner;
 
 import com.example.mathe.matchandplay.Adapter.JogoAdapter;
 import com.example.mathe.matchandplay.BD.Base64Custom;
 import com.example.mathe.matchandplay.BD.ConfiguracaoFireBase;
-import com.example.mathe.matchandplay.BD.Criaconexao;
-import com.example.mathe.matchandplay.BD.JogoRepositorio;
 import com.example.mathe.matchandplay.BD.PreferenciasAndroid;
 import com.example.mathe.matchandplay.ClassesObjetos.Jogo;
 import com.example.mathe.matchandplay.ClassesObjetos.Usuario;
@@ -41,17 +36,19 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class CadastroUsuario extends AppCompatActivity {
 
@@ -64,20 +61,26 @@ public class CadastroUsuario extends AppCompatActivity {
     private EditText edtCadEmail;
     private EditText edtCadSenha;
     private EditText edtCadConfirmaSenha;
+    private ListView checklistMeusJogos;
+    private ListView checklistJogosDesejados;
     private Button btnCadastrar;
     private Usuario usuario;
     private FirebaseAuth autenticacao;
-    private TextView tenho;
-    private TextView naotenho;
-    private ListView listaDeMeusJogos;
-    private ListView listaDeJogosDesejados;
     private static final int CHOOSE_IMAGE = 101;
+    private DatabaseReference firebase;
+    private ValueEventListener valueEventListenerJogo;
+    private ArrayList<Jogo> arrayListJogos;
+    private ArrayAdapter<Jogo> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_usuario);
         setTitle("Cadastro");
+
+        firebase = ConfiguracaoFireBase.getFireBase().child("jogo");
+        arrayListJogos = new ArrayList<>();
+        adapter = new JogoAdapter(CadastroUsuario.this, arrayListJogos);
 
         imagemEnviada = findViewById(R.id.uploadFoto);
         progressBar = (ProgressBar) findViewById(R.id.progressbarCadastro);
@@ -86,8 +89,6 @@ public class CadastroUsuario extends AppCompatActivity {
         edtCadSenha = (EditText) findViewById(R.id.edtCadSenha);
         edtCadConfirmaSenha = (EditText) findViewById(R.id.edtCadConfirmaSenha);
         btnCadastrar = (Button) findViewById(R.id.btnCadastrar);
-        tenho = (TextView) findViewById(R.id.tenho);
-        naotenho = (TextView) findViewById(R.id.naotenho);
 
         imagemEnviada.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,15 +119,32 @@ public class CadastroUsuario extends AppCompatActivity {
         });
 
         //CheckList
-        listaDeMeusJogos = (ListView) findViewById(R.id.lista_meusJogos);
-        listaDeJogosDesejados = (ListView) findViewById(R.id.lista_jogosDesejados);
-        String[] items ={"Dama", "Truco", "Xadrez", "Jogo da Vida","Banco Imobiliário", "Baralho", "Detetive", "Perfil", "War"};
-        JogoAdapter adapter = new JogoAdapter(Arrays.asList(items), this);
-        listaDeMeusJogos.setAdapter(adapter);
-        listaDeJogosDesejados.setAdapter(adapter);
-        setListViewHeightBasedOnItems(listaDeMeusJogos);
-        setListViewHeightBasedOnItems(listaDeJogosDesejados);
+        checklistMeusJogos = (ListView) findViewById(R.id.lista_meusJogos);
+        checklistJogosDesejados = (ListView) findViewById(R.id.lista_jogosDesejados);
+        checklistMeusJogos.setAdapter(adapter);
+        checklistJogosDesejados.setAdapter(adapter);
+        setListViewHeightBasedOnItems(checklistMeusJogos);
+        setListViewHeightBasedOnItems(checklistJogosDesejados);
 
+        valueEventListenerJogo = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                arrayListJogos.clear();
+
+                for (DataSnapshot dados : dataSnapshot.getChildren()) {
+                    Jogo jogoNovo = dados.getValue(Jogo.class);
+
+                    arrayListJogos.add(jogoNovo);
+                }
+
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
     }
 
 
@@ -227,9 +245,9 @@ public class CadastroUsuario extends AppCompatActivity {
                     try {
                         throw task.getException();
                     } catch (FirebaseAuthWeakPasswordException e) {
-                        erroExcecao = " Digite uma senha mais forte, contendo no mínimo 8 caracteres de letras e números.";
+                        erroExcecao = "Digite uma senha mais forte, contendo no mínimo 8 caracteres de letras e números.";
                     } catch (FirebaseAuthInvalidCredentialsException e) {
-                        erroExcecao = " O e-mail digitado é inválido, digite um novo e-mail.";
+                        erroExcecao = "O e-mail digitado é inválido, digite um novo e-mail.";
                     } catch (FirebaseAuthUserCollisionException e) {
                         erroExcecao = "Esse e-mail já está cadastrado no sistema.";
                     } catch (Exception e) {
@@ -278,6 +296,18 @@ public class CadastroUsuario extends AppCompatActivity {
             return false;
         }
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        firebase.removeEventListener(valueEventListenerJogo);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebase.addValueEventListener(valueEventListenerJogo);
     }
 
 }

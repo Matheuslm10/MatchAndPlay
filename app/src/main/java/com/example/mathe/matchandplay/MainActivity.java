@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void preencheVetoresJogosLogado(){
+        currentEmail = usuarioFirebase.getCurrentUser().getEmail().toString();
         Query query = ConfiguracaoFireBase.getFireBase().child("usuario").orderByChild("email").equalTo(currentEmail);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -143,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
     public ArrayList<Usuario> retornaListaDeMatchs(){
+
         ArrayList<Usuario> matches = new ArrayList<>();
 
         //se o logado tiver pelo menos 1 jogo em "meus jogos" faz isso...
@@ -183,7 +185,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         }
-
 
         return matches;
     }
