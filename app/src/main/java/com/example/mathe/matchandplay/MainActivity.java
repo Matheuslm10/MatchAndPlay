@@ -271,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fotoPerfil = header.findViewById(R.id.imageViewFotoUsuario);
         currentEmail = usuarioFirebase.getCurrentUser().getEmail();
 
-        //setando a foto a partir da autenticação
+        /*setando a foto a partir da autenticação
         if (usuarioFirebase != null) {
 
             if (usuarioFirebase.getCurrentUser().getPhotoUrl() != null) {
@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //passar como extra no bundle pro menu lateral.
             }
         }
-        //
+        */
         Query query = firebase.orderByChild("email").equalTo(currentEmail);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -291,6 +291,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         logado = issue.getValue(Usuario.class);
                         nomeUsuario.setText(logado.getNomeusuario());
                         emailUsuario.setText(logado.getEmail());
+                        Glide.with(MainActivity.this).load(logado.getUrlFotoPerfil()).into(fotoPerfil);
                     }
                 }
             }

@@ -44,7 +44,7 @@ public class CadastrarJogosDesejados extends AppCompatActivity {
         //CheckList
         checklistJogosDesejadosEditar = (ListView) findViewById(R.id.lista_jogosDesejados_editar);
         checklistJogosDesejadosEditar.setAdapter(adapter);
-        setListViewHeightBasedOnItems(checklistJogosDesejadosEditar);
+        //setListViewHeightBasedOnItems(checklistJogosDesejadosEditar);
 
         valueEventListenerJogo = new ValueEventListener() {
             @Override

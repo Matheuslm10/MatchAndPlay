@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:textColorHint="#000000"/>
+        android:textColorHint="#2f2f2f"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPassword"
-        android:textColorHint="#000000"/>
+        android:textColorHint="#2f2f2f"/>
 
     <LinearLayout
     android:layout_width="match_parent"
@@ -108,8 +108,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="28dp"
+        android:clickable="true"
+        android:onClick="deletarContaUsuario"
         android:text="DELETAR CONTA"
         android:textColor="#f60000"
-        android:textSize="18dp"/>
+        android:textSize="18dp" />
 
 </LinearLayout>

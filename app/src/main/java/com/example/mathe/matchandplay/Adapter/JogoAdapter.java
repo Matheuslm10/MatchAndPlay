@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CheckedTextView;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.example.mathe.matchandplay.ClassesObjetos.Jogo;
@@ -21,6 +22,7 @@ public class JogoAdapter extends ArrayAdapter<Jogo> {
 
     private ArrayList<Jogo> jogos;
     private Context context;
+    ArrayList<String> jogosSelecionados = new ArrayList<String>();
 
     public JogoAdapter(Context c, ArrayList<Jogo> objects) {
         super(c, 0, objects);
@@ -29,26 +31,46 @@ public class JogoAdapter extends ArrayAdapter<Jogo> {
         this.jogos = objects;
     }
 
+    public ArrayList<String> getJogosSelecionados(){
+        return jogosSelecionados;
+    }
+
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View view = null;
-        for(Jogo j: jogos){
-            System.out.println("jogo do array: "+j.getNome());
-        }
 
         if (jogos != null) {
+            /*
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
 
             view = inflater.inflate(R.layout.checkbox_item, parent, false);
+            */
 
-            Jogo jogo = jogos.get(position);
+            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+            view = inflater.inflate(R.layout.checkbox_item, parent, false);
+
+
+            final Jogo jogo = jogos.get(position);
 
             CheckBox nome = view.findViewById(R.id.checkbox_space);
             nome.setText(jogo.getNome());
-            System.out.println("NOME DO JOGO CHECKBOX: "+jogo.getNome());
             nome.setTextSize(18);
+            nome.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        jogosSelecionados.add(jogo.getNome());
+                    }else{
+                        jogosSelecionados.remove(jogo.getNome());
+                    }
+
+                }
+            });
+
 
         }
 

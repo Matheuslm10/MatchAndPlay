@@ -49,7 +49,7 @@ public class CadastrarMeusJogos extends AppCompatActivity {
         //CheckList
         checklistMeusJogosEditar = (ListView) findViewById(R.id.lista_meusJogos_editar);
         checklistMeusJogosEditar.setAdapter(adapter);
-        setListViewHeightBasedOnItems(checklistMeusJogosEditar);
+        //setListViewHeightBasedOnItems(checklistMeusJogosEditar);
 
         valueEventListenerJogo = new ValueEventListener() {
             @Override

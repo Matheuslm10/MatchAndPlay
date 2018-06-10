@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.mathe.matchandplay.BD.ConfiguracaoFireBase;
 import com.example.mathe.matchandplay.ClassesObjetos.Usuario;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +30,7 @@ public class MostraUsuario extends AppCompatActivity {
     ListView listViewJogosDesejados;
     ArrayAdapter<String> adapterMJ;
     ArrayAdapter<String> adapterJD;
+    private ImageView fotoPerfil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,7 @@ public class MostraUsuario extends AppCompatActivity {
         emailUsuario = (TextView) findViewById(R.id.txtMostraEmail);
         listViewMeusJogos = findViewById(R.id.lvMeusJogos);
         listViewJogosDesejados = findViewById(R.id.lvJogosDesejados);
+        fotoPerfil = findViewById(R.id.imgUsuario);
 
         Query query = ConfiguracaoFireBase.getFireBase().child("usuario").orderByChild("email").equalTo(emailSelecionado);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -50,7 +54,7 @@ public class MostraUsuario extends AppCompatActivity {
                         Usuario users = issue.getValue(Usuario.class);
                         nomeUsuario.setText(users.getNomeusuario());
                         emailUsuario.setText(users.getEmail());
-
+                        Glide.with(MostraUsuario.this).load(users.getUrlFotoPerfil()).into(fotoPerfil);
                         adapterMJ = new ArrayAdapter<String>(MostraUsuario.this, android.R.layout.simple_list_item_1, users.getMeusjogos());
                         listViewMeusJogos.setAdapter(adapterMJ);
                         setListViewHeightBasedOnItems(listViewMeusJogos);

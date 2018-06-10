@@ -1,5 +1,6 @@
 package com.example.mathe.matchandplay.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.mathe.matchandplay.ClassesObjetos.Usuario;
+import com.example.mathe.matchandplay.MainActivity;
+import com.example.mathe.matchandplay.MostraUsuario;
 import com.example.mathe.matchandplay.R;
 
 import java.util.ArrayList;
@@ -39,8 +43,11 @@ public class UsuarioAdapter extends ArrayAdapter<Usuario> {
             view = inflater.inflate(R.layout.formato_item_usuario, parent, false);
 
             TextView textViewNome = (TextView) view.findViewById(R.id.textViewNome);
+            ImageView fotoPerfil = view.findViewById(R.id.fotoMatch);
             ImageView balao = view.findViewById(R.id.ivBalao);
             ImageView mao = view.findViewById(R.id.ivMao);
+
+
 
             Usuario usuarios2 = usuarios.get(position);
             if(usuarios2.isInteressado()){
@@ -56,6 +63,7 @@ public class UsuarioAdapter extends ArrayAdapter<Usuario> {
             }
 
             textViewNome.setText(usuarios2.getNomeusuario());
+            Glide.with(context).load(usuarios2.getUrlFotoPerfil()).into(fotoPerfil);
 
         }else{
             System.out.println("A LISTA DE USUARIO PASSADA PARA O ADAPTER ESTÁ NULA.");

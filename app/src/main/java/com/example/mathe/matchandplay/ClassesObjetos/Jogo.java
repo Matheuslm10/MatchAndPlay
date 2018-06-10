@@ -17,7 +17,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Jogo  implements Serializable {
+public class Jogo{
+
+    Jogo(){
+
+    }
 
     private String nome;
 

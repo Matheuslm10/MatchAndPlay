@@ -9,10 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -63,6 +65,8 @@ public class CadastroUsuario extends AppCompatActivity {
     private EditText edtCadConfirmaSenha;
     private ListView checklistMeusJogos;
     private ListView checklistJogosDesejados;
+    private LinearLayout linearLayoutMJ;
+    private LinearLayout linearLayoutJD;
     private Button btnCadastrar;
     private Usuario usuario;
     private FirebaseAuth autenticacao;
@@ -70,7 +74,10 @@ public class CadastroUsuario extends AppCompatActivity {
     private DatabaseReference firebase;
     private ValueEventListener valueEventListenerJogo;
     private ArrayList<Jogo> arrayListJogos;
-    private ArrayAdapter<Jogo> adapter;
+    private JogoAdapter adapterMJ;
+    private JogoAdapter adapterJD;
+    private int qtdJogos = 0;
+    private ArrayList<String> arrayVazio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,9 +85,15 @@ public class CadastroUsuario extends AppCompatActivity {
         setContentView(R.layout.activity_cadastro_usuario);
         setTitle("Cadastro");
 
+        mAuth = ConfiguracaoFireBase.getFirebaseAutenticacao();
+        mAuth.signInAnonymously();
+
         firebase = ConfiguracaoFireBase.getFireBase().child("jogo");
         arrayListJogos = new ArrayList<>();
-        adapter = new JogoAdapter(CadastroUsuario.this, arrayListJogos);
+        arrayVazio = new ArrayList<>();
+        arrayVazio.add("");
+        adapterMJ = new JogoAdapter(CadastroUsuario.this, arrayListJogos);
+        adapterJD = new JogoAdapter(CadastroUsuario.this, arrayListJogos);
 
         imagemEnviada = findViewById(R.id.uploadFoto);
         progressBar = (ProgressBar) findViewById(R.id.progressbarCadastro);
@@ -89,42 +102,12 @@ public class CadastroUsuario extends AppCompatActivity {
         edtCadSenha = (EditText) findViewById(R.id.edtCadSenha);
         edtCadConfirmaSenha = (EditText) findViewById(R.id.edtCadConfirmaSenha);
         btnCadastrar = (Button) findViewById(R.id.btnCadastrar);
-
-        imagemEnviada.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showImageChooser();
-            }
-        });
-
-
-        btnCadastrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (edtCadSenha.getText().toString().equals(edtCadConfirmaSenha.getText().toString())) {
-                    usuario = new Usuario();
-                    usuario.setNomeusuario(edtCadNome.getText().toString());
-                    usuario.setEmail(edtCadEmail.getText().toString());
-                    usuario.setSenha(edtCadSenha.getText().toString());
-                    //pra meusjogos
-                    //pra jogosdesejados
-
-                    //saveUserInformation();
-                    cadastrarUsuario();
-
-                } else {
-                    Toast.makeText(CadastroUsuario.this, "As senhas não são correspondentes", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-        //CheckList
         checklistMeusJogos = (ListView) findViewById(R.id.lista_meusJogos);
         checklistJogosDesejados = (ListView) findViewById(R.id.lista_jogosDesejados);
-        checklistMeusJogos.setAdapter(adapter);
-        checklistJogosDesejados.setAdapter(adapter);
-        setListViewHeightBasedOnItems(checklistMeusJogos);
-        setListViewHeightBasedOnItems(checklistJogosDesejados);
+        linearLayoutMJ =findViewById(R.id.linearLayoutMJ);
+        linearLayoutJD = findViewById(R.id.linearLayoutJD);
+        checklistMeusJogos.setAdapter(adapterMJ);
+        checklistJogosDesejados.setAdapter(adapterJD);
 
         valueEventListenerJogo = new ValueEventListener() {
             @Override
@@ -136,8 +119,11 @@ public class CadastroUsuario extends AppCompatActivity {
 
                     arrayListJogos.add(jogoNovo);
                 }
+                qtdJogos = arrayListJogos.size();
+                setLinearLayoutHeightBasedOnItems();
+                adapterMJ.notifyDataSetChanged();
+                adapterJD.notifyDataSetChanged();
 
-                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -145,6 +131,50 @@ public class CadastroUsuario extends AppCompatActivity {
 
             }
         };
+
+
+        imagemEnviada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showImageChooser();
+            }
+        });
+
+        btnCadastrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edtCadSenha.getText().toString().equals(edtCadConfirmaSenha.getText().toString()) && edtCadSenha.getText().toString().length()>0) {
+                    usuario = new Usuario();
+                    usuario.setNomeusuario(edtCadNome.getText().toString());
+                    usuario.setEmail(edtCadEmail.getText().toString());
+                    usuario.setSenha(edtCadSenha.getText().toString());
+                    if(adapterMJ.getJogosSelecionados().isEmpty()){
+                        usuario.setMeusjogos(arrayVazio);
+                    }else{
+                        usuario.setMeusjogos(adapterMJ.getJogosSelecionados());
+                    }
+                    if(adapterJD.getJogosSelecionados().isEmpty()){
+                        usuario.setMeusjogos(arrayVazio);
+                    }else{
+                        usuario.setJogosdesejados(adapterJD.getJogosSelecionados());
+                    }
+
+                    cadastrarUsuario();
+
+                } else {
+                    if(edtCadSenha.getText().toString().length()<=0){
+                        edtCadSenha.requestFocus();
+                        Toast.makeText(CadastroUsuario.this, "Há campos vazios", Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(CadastroUsuario.this, "As senhas não são correspondentes!", Toast.LENGTH_LONG).show();
+                    }
+
+                }
+            }
+        });
+
+
+
     }
 
 
@@ -185,6 +215,7 @@ public class CadastroUsuario extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressBar.setVisibility(View.GONE);
                             profileImageUrl = taskSnapshot.getDownloadUrl().toString();
+                            System.out.println("URL DA FOTO SELECIONADA"+profileImageUrl);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -223,13 +254,13 @@ public class CadastroUsuario extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
-                                            Toast.makeText(CadastroUsuario.this, "SALVOU A FOTO!!!", Toast.LENGTH_LONG).show();
+                                            //
                                         }
                                     }
                                 });
 
                     }else{
-                        Toast.makeText(CadastroUsuario.this, "Não Salvou a foto!!!", Toast.LENGTH_LONG).show();
+                        //
                     }
                     usuario.setUrlFotoPerfil(profileImageUrl);
                     usuario.setIdusuario(idenficadorUsuario);
@@ -263,39 +294,19 @@ public class CadastroUsuario extends AppCompatActivity {
     public void abrirLoginUsuario() {
         Intent intent = new Intent(CadastroUsuario.this, Login.class);
         startActivity(intent);
+        mAuth.signOut();
         finish();
+
     }
 
-    public boolean setListViewHeightBasedOnItems(ListView listView) {
-        listView.setDivider(null);
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter != null) {
+    //ESSE METODO FOI ALTERADO PARA SETAR A ALTURA DO LINEAR LAYOUT, E NAO DO LISTVIEW
+    public void setLinearLayoutHeightBasedOnItems() {
 
-            int numberOfItems = listAdapter.getCount();
+        ViewGroup.LayoutParams params = linearLayoutMJ.getLayoutParams();
 
-            // Get total height of all items.
-            int totalItemsHeight = 0;
-            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
-                View item = listAdapter.getView(itemPos, null, listView);
-                item.measure(0, 0);
-                totalItemsHeight += item.getMeasuredHeight();
-            }
-
-            // Get total height of all item dividers.
-            int totalDividersHeight = listView.getDividerHeight() *  (numberOfItems - 1);
-
-            // Set list height.
-            ViewGroup.LayoutParams params = listView.getLayoutParams();
-            params.height = (totalItemsHeight + totalDividersHeight);
-            listView.setLayoutParams(params);
-            listView.requestLayout();
-
-            return true;
-
-        } else {
-            return false;
-        }
-
+        params.height = (qtdJogos * 80);
+        linearLayoutMJ.setLayoutParams(params);
+        linearLayoutJD.setLayoutParams(params);
     }
 
     @Override
