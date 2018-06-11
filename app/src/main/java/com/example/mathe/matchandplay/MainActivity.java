@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ArrayList<String> mjLogado = new ArrayList<>();
     ArrayList<String> jdLogado = new ArrayList<>();
     private SwipeRefreshLayout srMatches;
+    private TextView msg;
 
     //ProgressBar
     private ProgressBar progressBar;
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         progressBar = findViewById(R.id.progressbarMatch);
         progressBar.setVisibility(View.VISIBLE);
+        msg = findViewById(R.id.msgMatch);
 
         firebase = ConfiguracaoFireBase.getFireBase().child("usuario");
         usuarioFirebase = ConfiguracaoFireBase.getFirebaseAutenticacao();
@@ -149,8 +151,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void atualizarListaMatches(){
         allUsersArray = arrayListUsuario;
         arrayListMatches = retornaListaDeMatchs();
-        adapter = new UsuarioAdapter(this, arrayListMatches);
-        usuarioListView.setAdapter(adapter);
+        if(arrayListMatches.size()==0){
+            msg.setText("Não foi dessa vez  :(");
+        }else{
+            adapter = new UsuarioAdapter(this, arrayListMatches);
+            usuarioListView.setAdapter(adapter);
+        }
+
     }
 
     public void preencheVetoresJogosLogado(){
@@ -222,13 +229,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         progressBar.setVisibility(View.GONE);
-        Collections.sort(matches, new SortBasedOnName());
+        Collections.sort(matches, new SortBasedOnName(1));
         return matches;
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -238,18 +245,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-
-
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement

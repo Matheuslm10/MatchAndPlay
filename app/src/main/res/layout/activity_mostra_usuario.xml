@@ -94,5 +94,23 @@
         app:fabSize="auto"
         tools:ignore="VectorDrawableCompat" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        >
+
+        <ProgressBar
+            android:id="@+id/progressbarMostraUsuario"
+            android:layout_width="wrap_content"
+            android:layout_height="500dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="190dp"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+
 
 </android.support.design.widget.CoordinatorLayout>

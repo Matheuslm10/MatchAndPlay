@@ -27,6 +27,7 @@ import com.example.mathe.matchandplay.ClassesObjetos.Jogo;
 import com.example.mathe.matchandplay.ClassesObjetos.Usuario;
 import com.example.mathe.matchandplay.Login;
 import com.example.mathe.matchandplay.R;
+import com.example.mathe.matchandplay.SortBasedOnName;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -51,6 +52,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class CadastroUsuario extends AppCompatActivity {
 
@@ -92,8 +94,8 @@ public class CadastroUsuario extends AppCompatActivity {
         arrayListJogos = new ArrayList<>();
         arrayVazio = new ArrayList<>();
         arrayVazio.add("");
-        adapterMJ = new JogoAdapter(CadastroUsuario.this, arrayListJogos);
-        adapterJD = new JogoAdapter(CadastroUsuario.this, arrayListJogos);
+        adapterMJ = new JogoAdapter(CadastroUsuario.this, arrayListJogos, null);
+        adapterJD = new JogoAdapter(CadastroUsuario.this, arrayListJogos, null);
 
         imagemEnviada = findViewById(R.id.uploadFoto);
         progressBar = (ProgressBar) findViewById(R.id.progressbarCadastro);
@@ -121,6 +123,7 @@ public class CadastroUsuario extends AppCompatActivity {
                 }
                 qtdJogos = arrayListJogos.size();
                 setLinearLayoutHeightBasedOnItems();
+                Collections.sort(arrayListJogos, new SortBasedOnName(2));
                 adapterMJ.notifyDataSetChanged();
                 adapterJD.notifyDataSetChanged();
 
@@ -143,7 +146,12 @@ public class CadastroUsuario extends AppCompatActivity {
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (edtCadSenha.getText().toString().equals(edtCadConfirmaSenha.getText().toString()) && edtCadSenha.getText().toString().length()>0) {
+                if (edtCadSenha.getText().toString().equals(edtCadConfirmaSenha.getText().toString())
+                        && edtCadSenha.getText().toString().length() > 0
+                        && edtCadNome.getText().length() > 0
+                        && edtCadEmail.getText().length() > 0
+                        )
+                {
                     usuario = new Usuario();
                     usuario.setNomeusuario(edtCadNome.getText().toString());
                     usuario.setEmail(edtCadEmail.getText().toString());
@@ -153,20 +161,38 @@ public class CadastroUsuario extends AppCompatActivity {
                     }else{
                         usuario.setMeusjogos(adapterMJ.getJogosSelecionados());
                     }
-                    if(adapterJD.getJogosSelecionados().isEmpty()){
-                        usuario.setMeusjogos(arrayVazio);
-                    }else{
-                        usuario.setJogosdesejados(adapterJD.getJogosSelecionados());
-                    }
 
-                    cadastrarUsuario();
+                    //--------------------------
+                    boolean existeRepeticao = false;
+                    for(String jogo: usuario.getMeusjogos()){
+                        if(adapterJD.getJogosSelecionados().contains(jogo)){
+                            existeRepeticao = true;
+                            break;
+                        }
+                    }
+                    if(existeRepeticao){
+                        Toast.makeText(CadastroUsuario.this, "Por favor, desmarque os jogos que você tem, na lista dos que você não tem.", Toast.LENGTH_SHORT).show();
+                    }else{
+                        if(adapterJD.getJogosSelecionados().isEmpty()){
+                            usuario.setMeusjogos(arrayVazio);
+                        }else{
+                            usuario.setJogosdesejados(adapterJD.getJogosSelecionados());
+                        }
+                        cadastrarUsuario();
+                    }
+                    //--------------------------
 
                 } else {
-                    if(edtCadSenha.getText().toString().length()<=0){
-                        edtCadSenha.requestFocus();
+                    if(edtCadSenha.getText().toString().length()<=0
+                            || edtCadNome.getText().length() <= 0
+                            || edtCadEmail.getText().length() <= 0
+                            )
+                    {
+                        edtCadNome.requestFocus();
                         Toast.makeText(CadastroUsuario.this, "Há campos vazios", Toast.LENGTH_LONG).show();
                     }else{
                         Toast.makeText(CadastroUsuario.this, "As senhas não são correspondentes!", Toast.LENGTH_LONG).show();
+                        edtCadSenha.requestFocus();
                     }
 
                 }

@@ -19,11 +19,10 @@ import java.util.Map;
 
 public class Jogo{
 
-    Jogo(){
-
-    }
-
     private String nome;
+
+    public Jogo(){
+    }
 
     public String getNome() {
         return nome;

@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,11 +32,13 @@ public class MostraUsuario extends AppCompatActivity {
     ArrayAdapter<String> adapterMJ;
     ArrayAdapter<String> adapterJD;
     private ImageView fotoPerfil;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostra_usuario);
+        setTitle("Perfil");
         Intent it = getIntent();
         emailSelecionado =  it.getStringExtra("email_user_selected");
 
@@ -44,12 +47,15 @@ public class MostraUsuario extends AppCompatActivity {
         listViewMeusJogos = findViewById(R.id.lvMeusJogos);
         listViewJogosDesejados = findViewById(R.id.lvJogosDesejados);
         fotoPerfil = findViewById(R.id.imgUsuario);
+        progressBar = findViewById(R.id.progressbarMostraUsuario);
+        progressBar.setVisibility(View.VISIBLE);
 
         Query query = ConfiguracaoFireBase.getFireBase().child("usuario").orderByChild("email").equalTo(emailSelecionado);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
+                    progressBar.setVisibility(View.GONE);
                     for (DataSnapshot issue : dataSnapshot.getChildren()) {
                         Usuario users = issue.getValue(Usuario.class);
                         nomeUsuario.setText(users.getNomeusuario());

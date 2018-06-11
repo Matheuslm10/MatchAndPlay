@@ -20,6 +20,14 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <TextView
+        android:id="@+id/msgMatch"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:gravity="center"
+        android:paddingHorizontal="40dp"
+        android:textSize="30dp"/>
+
     <include layout="@layout/content_main" />
 
 </android.support.design.widget.CoordinatorLayout>

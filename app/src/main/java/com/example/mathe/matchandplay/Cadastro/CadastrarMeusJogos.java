@@ -1,5 +1,6 @@
 package com.example.mathe.matchandplay.Cadastro;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +17,10 @@ import android.widget.Toolbar;
 import com.example.mathe.matchandplay.Adapter.JogoAdapter;
 import com.example.mathe.matchandplay.BD.ConfiguracaoFireBase;
 import com.example.mathe.matchandplay.ClassesObjetos.Jogo;
+import com.example.mathe.matchandplay.ClassesObjetos.Usuario;
+import com.example.mathe.matchandplay.MainActivity;
 import com.example.mathe.matchandplay.R;
+import com.example.mathe.matchandplay.SortBasedOnName;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class CadastrarMeusJogos extends AppCompatActivity {
 
@@ -31,8 +36,9 @@ public class CadastrarMeusJogos extends AppCompatActivity {
     private DatabaseReference firebase;
     private ValueEventListener valueEventListenerJogo;
     private ArrayList<Jogo> arrayListJogos;
-    private ArrayAdapter<Jogo> adapter;
+    private JogoAdapter adapter;
     private ListView checklistMeusJogosEditar;
+    private Usuario usuarioAtual;
 
 
     @Override
@@ -43,13 +49,14 @@ public class CadastrarMeusJogos extends AppCompatActivity {
 
         firebase = ConfiguracaoFireBase.getFireBase().child("jogo");
         arrayListJogos = new ArrayList<>();
-        adapter = new JogoAdapter(this, arrayListJogos);
+        Intent it = getIntent();
+        usuarioAtual =  (Usuario)it.getSerializableExtra("user_logado");
+        adapter = new JogoAdapter(this, arrayListJogos, usuarioAtual.getMeusjogos());
 
 
         //CheckList
-        checklistMeusJogosEditar = (ListView) findViewById(R.id.lista_meusJogos_editar);
+        checklistMeusJogosEditar = findViewById(R.id.lista_meusJogos_editar);
         checklistMeusJogosEditar.setAdapter(adapter);
-        //setListViewHeightBasedOnItems(checklistMeusJogosEditar);
 
         valueEventListenerJogo = new ValueEventListener() {
             @Override
@@ -61,7 +68,7 @@ public class CadastrarMeusJogos extends AppCompatActivity {
 
                     arrayListJogos.add(arrayListJogoNovo);
                 }
-
+                Collections.sort(arrayListJogos, new SortBasedOnName(2));
                 adapter.notifyDataSetChanged();
 
             }
@@ -73,37 +80,27 @@ public class CadastrarMeusJogos extends AppCompatActivity {
         };
 
     }
-    public boolean setListViewHeightBasedOnItems(ListView listView) {
-        listView.setDivider(null);
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter != null) {
 
-            int numberOfItems = listAdapter.getCount();
+    public void editarMeusJogos(View v){
+        usuarioAtual.setMeusjogos(adapter.getJogosSelecionados());
+        for(String jogo: usuarioAtual.getJogosdesejados()){
+            if(adapter.getJogosSelecionados().contains(jogo)){
+                if(usuarioAtual.getJogosdesejados().size() > 1){
+                    usuarioAtual.getJogosdesejados().remove(jogo);
+                }else{
+                    usuarioAtual.getJogosdesejados().add("");
+                    usuarioAtual.getJogosdesejados().remove(jogo);
+                }
 
-            // Get total height of all items.
-            int totalItemsHeight = 0;
-            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
-                View item = listAdapter.getView(itemPos, null, listView);
-                item.measure(0, 0);
-                totalItemsHeight += item.getMeasuredHeight();
             }
-
-            // Get total height of all item dividers.
-            int totalDividersHeight = listView.getDividerHeight() *  (numberOfItems - 1);
-
-            // Set list height.
-            ViewGroup.LayoutParams params = listView.getLayoutParams();
-            params.height = (totalItemsHeight + totalDividersHeight);
-            listView.setLayoutParams(params);
-            listView.requestLayout();
-
-            return true;
-
-        } else {
-            return false;
         }
-
+        usuarioAtual.salvar();
+        Toast.makeText(this, "Alterações realizadas com sucesso!", Toast.LENGTH_SHORT).show();
+        finish();
+        Intent it = new Intent(this, MainActivity.class);
+        startActivity(it);
     }
+
 
     @Override
     protected void onStop() {
@@ -116,4 +113,5 @@ public class CadastrarMeusJogos extends AppCompatActivity {
         super.onStart();
         firebase.addValueEventListener(valueEventListenerJogo);
     }
+
 }

@@ -24,6 +24,7 @@ public class Faq extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_faq);
+        setTitle("Informações");
 
         textView3 = findViewById(R.id.textView3);
         textView5 = findViewById(R.id.textView5);

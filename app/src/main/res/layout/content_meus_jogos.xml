@@ -16,15 +16,26 @@
         android:paddingHorizontal="50dp"
         android:textSize="30dp" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:id="@+id/progressbarMJ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="190dp"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+
     <ListView
         android:id="@+id/list_meusJogos"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
-
-
-
-
-
+        android:layout_height="match_parent"/>
 
 
 </android.support.constraint.ConstraintLayout>

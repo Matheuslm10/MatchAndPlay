@@ -35,15 +35,13 @@
         </activity>
         <activity
             android:name=".MeusJogos"
-            android:label="@string/title_activity_meus_jogos"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_meus_jogos" />
         <activity
             android:name=".JogosDesejados"
-            android:label="@string/title_activity_jogos_desejados"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_jogos_desejados" />
         <activity android:name=".Cadastro.CadastrarMeusJogos" />
         <activity android:name=".Cadastro.CadastrarJogosDesejados" />
-        <activity android:name=".Conta"></activity>
+        <activity android:name=".Conta" />
     </application>
 
 </manifest>

@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.mathe.matchandplay.BD.ConfiguracaoFireBase;
@@ -30,18 +31,21 @@ public class JogosDesejados extends AppCompatActivity {
     TextView msg;
     FloatingActionButton botaoJD;
     ArrayAdapter<String> adapter;
+    Usuario user;
+    //ProgressBar
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jogos_desejados);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         Intent it = getIntent();
         emailSelecionado =  it.getStringExtra("email_user_selected_jd");
 
         listViewJogosDesejados = findViewById(R.id.list_jogosDesejados);
+        progressBar = findViewById(R.id.progressbarJD);
+        progressBar.setVisibility(View.VISIBLE);
         msg = findViewById(R.id.msgJD);
         botaoJD = findViewById(R.id.fab_jd);
 
@@ -51,13 +55,15 @@ public class JogosDesejados extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot issue : dataSnapshot.getChildren()) {
-                        Usuario user = issue.getValue(Usuario.class);
+                        user = issue.getValue(Usuario.class);
                         ArrayList<String> arraylistJD = user.getJogosdesejados();
                         if(arraylistJD.get(0).equals("")){
+                            progressBar.setVisibility(View.GONE);
                             msg.setText("Você não possui jogos nesta lista. Adicione novos jogos clicando no botão abaixo!");
                             botaoJD.setImageResource(R.drawable.baseline_add_24);
                         }else{
                             adapter = new ArrayAdapter<String>(JogosDesejados.this, android.R.layout.simple_list_item_1, user.getJogosdesejados());
+                            progressBar.setVisibility(View.GONE);
                             listViewJogosDesejados.setAdapter(adapter);
                         }
 
@@ -84,6 +90,7 @@ public class JogosDesejados extends AppCompatActivity {
 
     public void cadastrarJogosDesejados (View v){
         Intent it = new Intent(this, CadastrarJogosDesejados.class);
+        it.putExtra("user_logado", user);
         startActivity(it);
 
     }

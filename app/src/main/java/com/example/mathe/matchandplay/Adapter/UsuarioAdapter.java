@@ -37,7 +37,6 @@ public class UsuarioAdapter extends ArrayAdapter<Usuario> {
         View view = null;
 
         if (usuarios != null) {
-            System.out.println("ENTROU NO ADAPTER DOS USUARIOS");
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
 
             view = inflater.inflate(R.layout.formato_item_usuario, parent, false);

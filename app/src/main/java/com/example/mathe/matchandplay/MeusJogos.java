@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,18 +31,21 @@ public class MeusJogos extends AppCompatActivity {
     TextView msg;
     FloatingActionButton botaoMJ;
     ArrayAdapter<String> adapter;
+    Usuario user;
+    //ProgressBar
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meus_jogos);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         Intent it = getIntent();
         emailSelecionado =  it.getStringExtra("email_user_selected_mj");
 
         listViewMeusJogos = findViewById(R.id.list_meusJogos);
+        progressBar = findViewById(R.id.progressbarMJ);
+        progressBar.setVisibility(View.VISIBLE);
         msg = findViewById(R.id.msgMJ);
         botaoMJ = findViewById(R.id.fab_mj);
 
@@ -51,14 +55,17 @@ public class MeusJogos extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot issue : dataSnapshot.getChildren()) {
-                        Usuario user = issue.getValue(Usuario.class);
+                        user = issue.getValue(Usuario.class);
                         ArrayList<String> arraylistMJ = user.getMeusjogos();
                         if(arraylistMJ.get(0).equals("") ){
+                            progressBar.setVisibility(View.GONE);
                             msg.setText("Você não possui jogos nesta lista. Adicione novos jogos clicando no botão abaixo!");
                             botaoMJ.setImageResource(R.drawable.baseline_add_24);
                         }else {
                             adapter = new ArrayAdapter<String>(MeusJogos.this, android.R.layout.simple_list_item_1, user.getMeusjogos());
+                            progressBar.setVisibility(View.GONE);
                             listViewMeusJogos.setAdapter(adapter);
+
                         }
                     }
                 }
@@ -81,6 +88,7 @@ public class MeusJogos extends AppCompatActivity {
 
     public void cadastrarMeusJogos (View v){
         Intent it = new Intent(this, CadastrarMeusJogos.class);
+        it.putExtra("user_logado", user);
         startActivity(it);
 
     }
