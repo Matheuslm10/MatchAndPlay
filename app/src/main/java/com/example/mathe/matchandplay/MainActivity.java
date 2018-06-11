@@ -3,9 +3,11 @@ package com.example.mathe.matchandplay;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,11 +21,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.mathe.matchandplay.Adapter.IDAdapter;
 import com.example.mathe.matchandplay.Adapter.UsuarioAdapter;
 import com.example.mathe.matchandplay.BD.ConfiguracaoFireBase;
 import com.example.mathe.matchandplay.ClassesObjetos.Usuario;
@@ -35,6 +37,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -45,6 +48,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ArrayList<Usuario> arrayListMatches;
     ArrayList<String> mjLogado = new ArrayList<>();
     ArrayList<String> jdLogado = new ArrayList<>();
+    private SwipeRefreshLayout srMatches;
+
+    //ProgressBar
+    private ProgressBar progressBar;
 
     private FirebaseAuth usuarioFirebase;
     FirebaseAuth.AuthStateListener listener;
@@ -65,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         setTitle("Match's");
 
+        progressBar = findViewById(R.id.progressbarMatch);
+        progressBar.setVisibility(View.VISIBLE);
+
         firebase = ConfiguracaoFireBase.getFireBase().child("usuario");
         usuarioFirebase = ConfiguracaoFireBase.getFirebaseAutenticacao();
 
@@ -73,24 +83,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         arrayListMatches = new ArrayList<>();
         usuarioListView = findViewById(R.id.usuariosList);
 
+        srMatches = findViewById(R.id.srMatches);
+
         preencheVetoresJogosLogado();
 
-        Query consulta = firebase;
-        consulta.addListenerForSingleValueEvent(new ValueEventListener() {
+        montaListaMatches();
+
+        srMatches.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                arrayListUsuario.clear();
-                for (DataSnapshot dados : dataSnapshot.getChildren()) {
-                    Usuario novoUsuario = dados.getValue(Usuario.class);
+            public void onRefresh() {
+                montaListaMatches();
 
-                    arrayListUsuario.add(novoUsuario);
-                }
-                atualizarListaMatches();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        srMatches.setRefreshing(false);
+                    }
+                }, 3000);
             }
         });
 
@@ -113,6 +122,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void montaListaMatches(){
+
+        Query consulta = firebase;
+        consulta.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                arrayListUsuario.clear();
+                for (DataSnapshot dados : dataSnapshot.getChildren()) {
+                    Usuario novoUsuario = dados.getValue(Usuario.class);
+
+                    arrayListUsuario.add(novoUsuario);
+                }
+                atualizarListaMatches();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void atualizarListaMatches(){
@@ -155,7 +186,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     //se o usuario a ser comparado tiver pelo menos 1 jogo seus "jogos desejados" faz isso...
                     if(user.getJogosdesejados()!=null){
                         if(user.getJogosdesejados().contains(jogoX)){
-                            if(!matches.contains(user)){
+                            if(matches.contains(user)){
+                                user.setInteressado(true);
+                            }else{
                                 user.setInteressado(true);
                                 matches.add(user);
                             }
@@ -175,7 +208,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     //se o usuario a ser comparado tiver pelo menos 1 jogo seus "meus jogos" faz isso...
                     if(user.getMeusjogos()!=null){
                         if(user.getMeusjogos().contains(jogoX)){
-                            if(!matches.contains(user)){
+                            //verifica se o usuario já está na lista de matches
+                            if(matches.contains(user)){
+                                user.setProprietario(true);
+                            }else{
                                 user.setProprietario(true);
                                 matches.add(user);
                             }
@@ -185,7 +221,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         }
-
+        progressBar.setVisibility(View.GONE);
+        Collections.sort(matches, new SortBasedOnName());
         return matches;
     }
 
@@ -271,17 +308,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fotoPerfil = header.findViewById(R.id.imageViewFotoUsuario);
         currentEmail = usuarioFirebase.getCurrentUser().getEmail();
 
-        /*setando a foto a partir da autenticação
-        if (usuarioFirebase != null) {
-
-            if (usuarioFirebase.getCurrentUser().getPhotoUrl() != null) {
-                Glide.with(MainActivity.this)
-                        .load(usuarioFirebase.getCurrentUser().getPhotoUrl().toString())
-                        .into(fotoPerfil);
-                //passar como extra no bundle pro menu lateral.
-            }
-        }
-        */
         Query query = firebase.orderByChild("email").equalTo(currentEmail);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -313,5 +339,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onStop() {
         super.onStop();
     }
+
 
 }
