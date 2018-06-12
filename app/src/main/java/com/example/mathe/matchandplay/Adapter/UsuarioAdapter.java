@@ -52,7 +52,7 @@ public class UsuarioAdapter extends ArrayAdapter<Usuario> {
             if(usuarios2.isInteressado()){
                 balao.setImageResource(R.drawable.deseja_aceso);
             }else{
-                balao.setImageResource(R.drawable.deseja_apagado_pequeno);
+                balao.setImageResource(R.drawable.deseja_apagado);
             }
 
             if(usuarios2.isProprietario()){

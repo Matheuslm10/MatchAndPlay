@@ -37,6 +37,7 @@ public class Conversas extends AppCompatActivity {
     int totalUsers = 0;
     ProgressDialog pd;
     Usuario encontrado;
+    boolean existeNoBD = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class Conversas extends AppCompatActivity {
         pd = new ProgressDialog(Conversas.this);
         pd.setMessage("Loading...");
         pd.show();
+
 
         //PESQUISAR OS CHILDS QUE COMECEM COM O ID DO USUARIO LOGADO, e mostrar isso numa lista.
         String url = "https://matchandplay-ce8a9.firebaseio.com/mensagens.json";
@@ -68,6 +70,7 @@ public class Conversas extends AppCompatActivity {
 
         RequestQueue rQueue = Volley.newRequestQueue(Conversas.this);
         rQueue.add(request);
+        //---
 
         usersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -91,10 +94,15 @@ public class Conversas extends AppCompatActivity {
 
                 //SE A STRING CONTER O ID DO LOGADO, ADICIONA NA LISTA DE COVERSA O USUARIO DO ID QUE ESTÁ à DIREITA DO ID DO LOGADO
                 if(key.contains(UserDadosChat.idLogado)) {
+                    existeNoBD = true;
                     String idChatWith = key.replace(UserDadosChat.idLogado+"_", "");
                     encontraUsuario(idChatWith);//esse método encontra  E ADICIONA NA LISTA
                 }
-
+            }
+            if(existeNoBD == false){
+                noUsersText.setVisibility(View.VISIBLE);
+                usersList.setVisibility(View.GONE);
+                pd.dismiss();
             }
 
         } catch (JSONException e) {
@@ -119,15 +127,9 @@ public class Conversas extends AppCompatActivity {
 
                     }
                     Collections.sort(arrayListUsuarios, new SortBasedOnName(1));
-                    if(totalUsers <1){
-                        noUsersText.setVisibility(View.VISIBLE);
-                        usersList.setVisibility(View.GONE);
-                    }
-                    else{
-                        noUsersText.setVisibility(View.GONE);
-                        usersList.setVisibility(View.VISIBLE);
-                        usersList.setAdapter(new UsuarioAdapterChat(Conversas.this, arrayListUsuarios));
-                    }
+                    noUsersText.setVisibility(View.GONE);
+                    usersList.setVisibility(View.VISIBLE);
+                    usersList.setAdapter(new UsuarioAdapterChat(Conversas.this, arrayListUsuarios));
 
                     pd.dismiss();
                 }

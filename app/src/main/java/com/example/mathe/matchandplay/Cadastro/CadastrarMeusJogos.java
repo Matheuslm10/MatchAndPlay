@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.mathe.matchandplay.Adapter.JogoAdapter;
@@ -31,6 +32,7 @@ public class CadastrarMeusJogos extends AppCompatActivity {
     private JogoAdapter adapter;
     private ListView checklistMeusJogosEditar;
     private Usuario usuarioAtual;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -44,6 +46,8 @@ public class CadastrarMeusJogos extends AppCompatActivity {
         Intent it = getIntent();
         usuarioAtual =  (Usuario)it.getSerializableExtra("user_logado");
         adapter = new JogoAdapter(this, arrayListJogos, usuarioAtual.getMeusjogos());
+        progressBar = findViewById(R.id.progressbarCadMJ);
+        progressBar.setVisibility(View.VISIBLE);
 
 
         //CheckList
@@ -61,6 +65,7 @@ public class CadastrarMeusJogos extends AppCompatActivity {
                     arrayListJogos.add(arrayListJogoNovo);
                 }
                 Collections.sort(arrayListJogos, new SortBasedOnName(2));
+                progressBar.setVisibility(View.GONE);
                 adapter.notifyDataSetChanged();
 
             }

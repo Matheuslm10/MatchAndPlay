@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ public class CadastrarJogosDesejados extends AppCompatActivity {
     private JogoAdapter adapter;
     private ListView checklistJogosDesejadosEditar;
     private Usuario usuarioAtual;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -49,6 +51,8 @@ public class CadastrarJogosDesejados extends AppCompatActivity {
         Intent it = getIntent();
         usuarioAtual =  (Usuario)it.getSerializableExtra("user_logado");
         adapter = new JogoAdapter(this, arrayListJogos, usuarioAtual.getJogosdesejados());
+        progressBar = findViewById(R.id.progressbarCadJD);
+        progressBar.setVisibility(View.VISIBLE);
 
         //CheckList
         checklistJogosDesejadosEditar =  findViewById(R.id.lista_jogosDesejados_editar);
@@ -65,6 +69,7 @@ public class CadastrarJogosDesejados extends AppCompatActivity {
                     arrayListJogos.add(arrayListJogoNovo);
                 }
                 Collections.sort(arrayListJogos, new SortBasedOnName(2));
+                progressBar.setVisibility(View.GONE);
                 adapter.notifyDataSetChanged();
 
             }

@@ -32,6 +32,7 @@ import com.example.mathe.matchandplay.ClassesObjetos.Usuario;
 import com.example.mathe.matchandplay.Login;
 import com.example.mathe.matchandplay.R;
 import com.example.mathe.matchandplay.SortBasedOnName;
+import com.example.mathe.matchandplay.UserDadosChat;
 import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -61,6 +62,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CadastroUsuario extends AppCompatActivity {
 
@@ -304,10 +307,13 @@ public class CadastroUsuario extends AppCompatActivity {
                     preferenciasAndroid.salvarUsuarioPrefencias(idenficadorUsuario, usuario.getNomeusuario());
 
                     //deletando a autenticacao anonima q foi criada para fazer upload da foto de perfil
-                    mAuth.getCurrentUser().delete();if(mAuth.getCurrentUser()!=null){
-                        mAuth.getCurrentUser().delete();
+                    if(mAuth!=null){
+                        if(mAuth.getCurrentUser().getEmail()==null){
+                            mAuth.getCurrentUser().delete();
+                        }
                     }
                     abrirLoginUsuario();
+
                 } else {
                     String erroExcecao = "";
 
@@ -352,10 +358,6 @@ public class CadastroUsuario extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         firebase.removeEventListener(valueEventListenerJogo);
-        //deletando a autenticacao anonima q foi criada para fazer upload da foto de perfil
-        if(mAuth.getCurrentUser()!=null){
-            mAuth.getCurrentUser().delete();
-        }
 
     }
 
