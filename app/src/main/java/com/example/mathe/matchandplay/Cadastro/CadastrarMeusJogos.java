@@ -4,15 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.example.mathe.matchandplay.Adapter.JogoAdapter;
 import com.example.mathe.matchandplay.BD.ConfiguracaoFireBase;
@@ -27,7 +20,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class CadastrarMeusJogos extends AppCompatActivity {
@@ -85,14 +77,19 @@ public class CadastrarMeusJogos extends AppCompatActivity {
         usuarioAtual.setMeusjogos(adapter.getJogosSelecionados());
         for(String jogo: usuarioAtual.getJogosdesejados()){
             if(adapter.getJogosSelecionados().contains(jogo)){
-                if(usuarioAtual.getJogosdesejados().size() > 1){
+                if(usuarioAtual.getJogosdesejados().size() == 1){
+                    usuarioAtual.getJogosdesejados().add("");
                     usuarioAtual.getJogosdesejados().remove(jogo);
                 }else{
-                    usuarioAtual.getJogosdesejados().add("");
                     usuarioAtual.getJogosdesejados().remove(jogo);
                 }
 
             }
+        }
+        //verifica se está vazio
+        if(adapter.getJogosSelecionados().size()<1 || adapter.getJogosSelecionados().isEmpty()){
+            adapter.getJogosSelecionados().add("");
+            System.out.println("CONTEUDO DO ADAPTER: "+adapter.getJogosSelecionados());
         }
         usuarioAtual.salvar();
         Toast.makeText(this, "Alterações realizadas com sucesso!", Toast.LENGTH_SHORT).show();

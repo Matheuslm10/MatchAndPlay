@@ -2,7 +2,6 @@ package com.example.mathe.matchandplay;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.mathe.matchandplay.BD.ConfiguracaoFireBase;
@@ -26,7 +24,6 @@ import com.google.firebase.database.ValueEventListener;
 public class MostraUsuario extends AppCompatActivity {
     String emailSelecionado;
     private TextView nomeUsuario;
-    private TextView emailUsuario;
     ListView listViewMeusJogos;
     ListView listViewJogosDesejados;
     ArrayAdapter<String> adapterMJ;
@@ -43,7 +40,6 @@ public class MostraUsuario extends AppCompatActivity {
         emailSelecionado =  it.getStringExtra("email_user_selected");
 
         nomeUsuario = (TextView) findViewById(R.id.txtMostraNome);
-        emailUsuario = (TextView) findViewById(R.id.txtMostraEmail);
         listViewMeusJogos = findViewById(R.id.lvMeusJogos);
         listViewJogosDesejados = findViewById(R.id.lvJogosDesejados);
         fotoPerfil = findViewById(R.id.imgUsuario);
@@ -59,7 +55,11 @@ public class MostraUsuario extends AppCompatActivity {
                     for (DataSnapshot issue : dataSnapshot.getChildren()) {
                         Usuario users = issue.getValue(Usuario.class);
                         nomeUsuario.setText(users.getNomeusuario());
-                        emailUsuario.setText(users.getEmail());
+
+                        //setando dados para o chat
+                        UserDadosChat.idChatWith = users.getIdusuario();
+                        UserDadosChat.nomeChatWith = users.getNomeusuario();
+                        //
                         Glide.with(MostraUsuario.this).load(users.getUrlFotoPerfil()).into(fotoPerfil);
                         adapterMJ = new ArrayAdapter<String>(MostraUsuario.this, android.R.layout.simple_list_item_1, users.getMeusjogos());
                         listViewMeusJogos.setAdapter(adapterMJ);
@@ -81,8 +81,7 @@ public class MostraUsuario extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Um hora vai ter! ;D", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(new Intent(MostraUsuario.this, Chat.class));
             }
         });
 

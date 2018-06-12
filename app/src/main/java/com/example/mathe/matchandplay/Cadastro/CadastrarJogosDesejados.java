@@ -88,6 +88,11 @@ public class CadastrarJogosDesejados extends AppCompatActivity {
         if(existeRepeticao){
             Toast.makeText(this, "Por favor, desmarque os jogos que você já possui.", Toast.LENGTH_SHORT).show();
         }else{
+            //verifica se está vazio
+            if(adapter.getJogosSelecionados().size()<1 || adapter.getJogosSelecionados().isEmpty()){
+                adapter.getJogosSelecionados().add("");
+                System.out.println("CONTEUDO DO ADAPTER: "+adapter.getJogosSelecionados());
+            }
             usuarioAtual.setJogosdesejados(adapter.getJogosSelecionados());
             usuarioAtual.salvar();
             Toast.makeText(this, "Alterações realizadas com sucesso!", Toast.LENGTH_SHORT).show();

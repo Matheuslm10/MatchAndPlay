@@ -1,12 +1,8 @@
 package com.example.mathe.matchandplay;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -23,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.mathe.matchandplay.Adapter.UsuarioAdapter;
@@ -138,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     arrayListUsuario.add(novoUsuario);
                 }
+
                 atualizarListaMatches();
             }
 
@@ -154,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(arrayListMatches.size()==0){
             msg.setText("Não foi dessa vez  :(");
         }else{
+            msg.setText("");
             adapter = new UsuarioAdapter(this, arrayListMatches);
             usuarioListView.setAdapter(adapter);
         }
@@ -281,7 +278,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent it = new Intent(this, Conta.class);
             startActivity(it);
 
-        }  else if (id == R.id.nav_info) {
+        } else if (id == R.id.nav_conversas) {
+            Intent it = new Intent(this, Conversas.class);
+            startActivity(it);
+
+        } else if (id == R.id.nav_info) {
             Intent it = new Intent(this, Faq.class);
             startActivity(it);
 
@@ -319,6 +320,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         nomeUsuario.setText(logado.getNomeusuario());
                         emailUsuario.setText(logado.getEmail());
                         Glide.with(MainActivity.this).load(logado.getUrlFotoPerfil()).into(fotoPerfil);
+                        UserDadosChat.idLogado = logado.getIdusuario();
                     }
                 }
             }

@@ -1,6 +1,5 @@
 package com.example.mathe.matchandplay.Adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,19 +10,17 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.mathe.matchandplay.ClassesObjetos.Usuario;
-import com.example.mathe.matchandplay.MainActivity;
-import com.example.mathe.matchandplay.MostraUsuario;
 import com.example.mathe.matchandplay.R;
 
 import java.util.ArrayList;
 
-public class UsuarioAdapter extends ArrayAdapter<Usuario> {
+public class UsuarioAdapterChat extends ArrayAdapter<Usuario> {
 
     private ArrayList<Usuario> usuarios;
     private Context context;
 
 
-    public UsuarioAdapter(Context c, ArrayList<Usuario> objects) {
+    public UsuarioAdapterChat(Context c, ArrayList<Usuario> objects) {
         super(c, 0, objects);
 
         this.context = c;
@@ -39,27 +36,13 @@ public class UsuarioAdapter extends ArrayAdapter<Usuario> {
         if (usuarios != null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
 
-            view = inflater.inflate(R.layout.formato_item_usuario, parent, false);
+            view = inflater.inflate(R.layout.formato_chat_usuario, parent, false);
 
-            TextView textViewNome = (TextView) view.findViewById(R.id.textViewNome);
-            ImageView fotoPerfil = view.findViewById(R.id.fotoMatch);
-            ImageView balao = view.findViewById(R.id.ivBalao);
-            ImageView mao = view.findViewById(R.id.ivMao);
-
-
+            TextView textViewNome = (TextView) view.findViewById(R.id.textViewNomeChat);
+            ImageView fotoPerfil = view.findViewById(R.id.fotoChat);
 
             Usuario usuarios2 = usuarios.get(position);
-            if(usuarios2.isInteressado()){
-                balao.setImageResource(R.drawable.deseja_aceso);
-            }else{
-                balao.setImageResource(R.drawable.deseja_apagado_pequeno);
-            }
 
-            if(usuarios2.isProprietario()){
-                mao.setImageResource(R.drawable.possui_aceso);
-            }else{
-                mao.setImageResource(R.drawable.possui_apagado);
-            }
 
             textViewNome.setText(usuarios2.getNomeusuario());
             Glide.with(context).load(usuarios2.getUrlFotoPerfil()).into(fotoPerfil);

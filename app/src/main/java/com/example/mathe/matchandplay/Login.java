@@ -1,12 +1,16 @@
 package com.example.mathe.matchandplay;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +29,8 @@ public class Login extends AppCompatActivity {
     private Button btnEntrar;
     private FirebaseAuth autenticacao;
     private Usuario usuario;
-    private TextView txtSemCadastro;
+    //ProgressBar
+    private ProgressBar progressBarLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +40,9 @@ public class Login extends AppCompatActivity {
         edtEmail = (EditText) findViewById(R.id.edtEmail);
         edtSenha = (EditText) findViewById(R.id.edtSenha);
         btnEntrar = (Button) findViewById(R.id.btnEntrar);
-        txtSemCadastro = (TextView) findViewById(R.id.txtSemCadastro);
+        progressBarLogin = findViewById(R.id.progressbarLogin);
+        progressBarLogin.getIndeterminateDrawable().setColorFilter(Color.parseColor("#ff6a00"), android.graphics.PorterDuff.Mode.MULTIPLY);
+
 
         btnEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +52,7 @@ public class Login extends AppCompatActivity {
                     usuario = new Usuario();
                     usuario.setEmail(edtEmail.getText().toString());
                     usuario.setSenha(edtSenha.getText().toString());
+                    progressBarLogin.setVisibility(View.VISIBLE);
                     validarLogin();
 
                 } else {
@@ -63,11 +71,12 @@ public class Login extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
 
                 if (task.isSuccessful()) {
-
+                    progressBarLogin.setVisibility(View.GONE);
                     abrirTelaPrincipal();
                     Toast.makeText(Login.this, "Login efetuado com sucesso!", Toast.LENGTH_SHORT).show();
 
                 } else {
+                    progressBarLogin.setVisibility(View.GONE);
                     Toast.makeText(Login.this, "Usuário ou senha inválidos!", Toast.LENGTH_SHORT).show();
 
                 }

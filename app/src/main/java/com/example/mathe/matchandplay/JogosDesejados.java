@@ -82,8 +82,6 @@ public class JogosDesejados extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 cadastrarJogosDesejados(view);
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
     }

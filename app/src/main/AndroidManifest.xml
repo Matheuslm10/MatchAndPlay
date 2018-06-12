@@ -42,6 +42,9 @@
         <activity android:name=".Cadastro.CadastrarMeusJogos" />
         <activity android:name=".Cadastro.CadastrarJogosDesejados" />
         <activity android:name=".Conta" />
+        <activity android:name=".Chat" />
+        <activity android:name=".Conversas" />
+        <activity android:name=".Message_area" />
     </application>
 
 </manifest>

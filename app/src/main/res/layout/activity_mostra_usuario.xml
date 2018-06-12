@@ -34,14 +34,6 @@
                 app:srcCompat="@drawable/perfilsemfoto" />
 
             <TextView
-                android:id="@+id/txtMostraEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginTop="10dp"
-                android:textSize="20sp" />
-
-            <TextView
                 android:id="@+id/txtMeusJogos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -19,6 +19,10 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.mathe.matchandplay.Adapter.JogoAdapter;
 import com.example.mathe.matchandplay.BD.Base64Custom;
 import com.example.mathe.matchandplay.BD.ConfiguracaoFireBase;
@@ -28,6 +32,7 @@ import com.example.mathe.matchandplay.ClassesObjetos.Usuario;
 import com.example.mathe.matchandplay.Login;
 import com.example.mathe.matchandplay.R;
 import com.example.mathe.matchandplay.SortBasedOnName;
+import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -49,6 +54,9 @@ import com.google.firebase.storage.UploadTask;
 
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -295,6 +303,10 @@ public class CadastroUsuario extends AppCompatActivity {
                     PreferenciasAndroid preferenciasAndroid = new PreferenciasAndroid(CadastroUsuario.this);
                     preferenciasAndroid.salvarUsuarioPrefencias(idenficadorUsuario, usuario.getNomeusuario());
 
+                    //deletando a autenticacao anonima q foi criada para fazer upload da foto de perfil
+                    mAuth.getCurrentUser().delete();if(mAuth.getCurrentUser()!=null){
+                        mAuth.getCurrentUser().delete();
+                    }
                     abrirLoginUsuario();
                 } else {
                     String erroExcecao = "";
@@ -325,6 +337,7 @@ public class CadastroUsuario extends AppCompatActivity {
 
     }
 
+
     //ESSE METODO FOI ALTERADO PARA SETAR A ALTURA DO LINEAR LAYOUT, E NAO DO LISTVIEW
     public void setLinearLayoutHeightBasedOnItems() {
 
@@ -339,6 +352,11 @@ public class CadastroUsuario extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         firebase.removeEventListener(valueEventListenerJogo);
+        //deletando a autenticacao anonima q foi criada para fazer upload da foto de perfil
+        if(mAuth.getCurrentUser()!=null){
+            mAuth.getCurrentUser().delete();
+        }
+
     }
 
     @Override
